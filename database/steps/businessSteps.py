@@ -1,3 +1,39 @@
+'''
+dispensed
+disposed
+partially_dispensed
+stolen
+'''
+
+accepting_disp=['damaged','in_progress']
+arriving_disp=['in_progress']
+commissioning_disp=['active']
+departing_disp=['in_transit']
+decommissioning=['inactive']
+destroying_disp=['destroyed']
+encoding_disp=['encoded']
+holding_disp=['expired','no_pedigree_match','non_sellable_other','recalled',
+              'returned''sellable_not_accessible']
+inspecting_disp=['damaged','non_sellable_other','sellable_not_accessible']
+loading_disp=['in_progress','sellable_not_accessible']
+picking_disp=['in_progress']
+receiving_disp=['damaged','in_progress']
+removing_disp=['damaged']
+receiving_disp=['returned','sellable_accessible','sellable_not_accessible']
+repairing_disp=['damaged']
+replacing_disp=['damaged']
+reserving_disp=['reserved']
+retail_selling_disp=['retail_sold']
+shipping_disp=['in_transit','returned']
+staging_outbound_disp=['container_closed','expired','in_progress','no_pedigree_match',
+                       'non_sellable_other','recalled']
+stocking_disp=['sellable_accessible']
+storing_disp=['expired','no_pedigree_match','non_sellable_other','recalled',
+              'sellable_not_accessible']
+void_shipping_disp=['in_progress']
+
+
+
 
 # %%
 def accepting():
