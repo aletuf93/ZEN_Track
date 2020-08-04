@@ -12,7 +12,7 @@ from database.entities.node import node
 from database.entities.physicalGood import physicalGood
 from database.entities.node import nodeTypeDict
 from database.models.ObjectEvent import ADDobjectEvent, OBSERVEobjectEvent, DELETEobjectEvent
-
+from database.models.AggregationEvent import ADDaggregationEvent, OBSERVEaggregationEvent, DELETEaggregationEvent
 
 # %% set supply chain parameters
 num_wh = 5
@@ -41,6 +41,12 @@ num_EPCs = int(1e4)
 num_obj_ADD = 20
 num_obj_OBSERVE = 20
 num_obj_DELETE = 20
+
+#num transactions
+num_agg_ADD = 20
+num_agg_OBSERVE = 20
+num_agg_DELETE = 20
+
 
 # %% generate entities
 
@@ -156,4 +162,59 @@ for i in range (0,num_obj_OBSERVE):
                        )
     
 
+# %%
+
+#add aggregation
+for i in range (0,num_agg_ADD):
+
+        
+    #random coose an epc_parent
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_parent= EPCsDict[epc_key]
+    
+    #random coose an epc_parent
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_child= EPCsDict[epc_key]
+    
+    
+    
+    result = ADDaggregationEvent(physicalGood_parent=chooseEpc_parent,
+                    physicalGood_child=chooseEpc_child,
+                    )
+    
+#observe aggregation
+for i in range (0,num_agg_OBSERVE):
+
+        
+    #random coose an epc_parent
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_parent= EPCsDict[epc_key]
+    
+    #random coose an epc_parent
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_child= EPCsDict[epc_key]
+    
+    
+    
+    result = OBSERVEaggregationEvent(physicalGood_parent=chooseEpc_parent,
+                    physicalGood_child=chooseEpc_child,
+                    )
+    
+#delete aggregation
+for i in range (0,num_agg_DELETE):
+
+        
+    #random coose an epc_parent
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_parent= EPCsDict[epc_key]
+    
+    #random coose an epc_parent
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_child= EPCsDict[epc_key]
+    
+    
+    
+    result = DELETEaggregationEvent(physicalGood_parent=chooseEpc_parent,
+                    physicalGood_child=chooseEpc_child,
+                    )
 
