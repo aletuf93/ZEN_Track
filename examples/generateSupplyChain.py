@@ -5,18 +5,20 @@ import numpy as np
 import pandas as pd
 
 if  __name__ == "__main__":
-    print("ciao")
     import sys; sys.path.insert(0, '..') #add the above level with the package
 
 #import dependencies
 from database.entities.node import node
+from database.entities.physicalGood import physicalGood
 from database.entities.node import nodeTypeDict
+from database.models.ObjectEvent import ADDobjectEvent
 
 
 # %% set supply chain parameters
 num_wh = 5
 num_plant = 15
 num_transport = 100
+
 
 # supply chain extension
 min_latitude = 41.413896
@@ -31,6 +33,12 @@ min_y = 0
 max_y = 400
 min_z = 0
 max_z = 0
+
+#num EPCs
+num_EPCs = int(1e4)
+
+#num transactions
+num_obj_ADD = 2
 
 # %% generate entities
 
@@ -78,8 +86,34 @@ for i in range(0,num_transport):
 # %% export nodes
 D_results = pd.DataFrame()
 
-for node in nodesDict:
-    node_row = pd.DataFrame([nodesDict[node].__dict__])
+for singleNode in nodesDict:
+    node_row = pd.DataFrame([nodesDict[singleNode].__dict__])
     D_results = D_results.append(node_row)
     
 D_results = D_results.reset_index(drop=True)
+
+
+# %% generate EPCs
+EPCsDict={}
+for i in range(0,num_EPCs):
+    EPCsDict[i] = physicalGood(f"prod_{i}")
+    
+
+
+# %% define an objectEvent
+
+for i in range (0,num_obj_ADD):
+
+    #random choose a node
+    node_key = random.choice(list(nodesDict.keys()))
+    chooseNode = nodesDict[node_key]
+    
+    #random coose an epc
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc= EPCsDict[epc_key]
+    
+    
+    
+    result = ADDobjectEvent(physicalGood=chooseEpc,
+                       nodeDict=chooseNode.__dict__,
+                       )
