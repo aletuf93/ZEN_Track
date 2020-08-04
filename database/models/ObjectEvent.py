@@ -38,7 +38,7 @@ class ObjectEvent(event):
     extensions = odm.ListField() #This identifies the addition of new data members, list of additional attributes
     
 # %%
-def ADDobjectEvent(physicalGood,
+def defineObjectEvent(physicalGood,
                    nodeDict,
                    childEPCsList=[],
                    quantity=np.nan,
@@ -47,8 +47,7 @@ def ADDobjectEvent(physicalGood,
                    bizStep=None,
                    sourceDestList=[],
                    ilmd=None,
-                   extensions={},
-                   dbname="EPCIS_DB"):
+                   extensions={}):
     
     document={}
     
@@ -60,9 +59,7 @@ def ADDobjectEvent(physicalGood,
     #what
     #each event involves a single epc        
     document['epc'] = physicalGood.epc
-        
     document['childEPCs'] = childEPCsList
-    document['action'] = "ADD"
     document['quantity'] = quantity
     
     #where
@@ -85,6 +82,36 @@ def ADDobjectEvent(physicalGood,
     document['ilmd'] = ilmd
     document['extensions'] = extensions
     
+    return document
+    
+
+
+
+
+def ADDobjectEvent(physicalGood,
+                   nodeDict,
+                   childEPCsList=[],
+                   quantity=np.nan,
+                   disposition=None,
+                   bizTransactionList = None,
+                   bizStep=None,
+                   sourceDestList=[],
+                   ilmd=None,
+                   extensions={},
+                   dbname="EPCIS_DB"):
+    
+    document = defineObjectEvent(physicalGood,
+                   nodeDict,
+                   childEPCsList=childEPCsList,
+                   quantity=quantity,
+                   disposition=disposition,
+                   bizTransactionList = bizTransactionList,
+                   bizStep=bizStep,
+                   sourceDestList=sourceDestList,
+                   ilmd=ilmd,
+                   extensions=extensions)
+    
+    document['action'] = "ADD"
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
@@ -93,10 +120,66 @@ def ADDobjectEvent(physicalGood,
     return result
 
 # %%
-def OBSERVEobjectEvent():
-    pass
+def OBSERVEobjectEvent(physicalGood,
+                   nodeDict,
+                   childEPCsList=[],
+                   quantity=np.nan,
+                   disposition=None,
+                   bizTransactionList = None,
+                   bizStep=None,
+                   sourceDestList=[],
+                   ilmd=None,
+                   extensions={},
+                   dbname="EPCIS_DB"):
+    
+    document = defineObjectEvent(physicalGood,
+                   nodeDict,
+                   childEPCsList=childEPCsList,
+                   quantity=quantity,
+                   disposition=disposition,
+                   bizTransactionList = bizTransactionList,
+                   bizStep=bizStep,
+                   sourceDestList=sourceDestList,
+                   ilmd=ilmd,
+                   extensions=extensions)
+    
+    document['action'] = "OBSERVE"
+    
+    #insert record
+    db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
+    result = db['ObjectEvent'].insert_one(document)
+    
+    return result
 
 
 # %%
-def DELETEobjectEvent():
-    pass
+def DELETEobjectEvent(physicalGood,
+                   nodeDict,
+                   childEPCsList=[],
+                   quantity=np.nan,
+                   disposition=None,
+                   bizTransactionList = None,
+                   bizStep=None,
+                   sourceDestList=[],
+                   ilmd=None,
+                   extensions={},
+                   dbname="EPCIS_DB"):
+    
+    document = defineObjectEvent(physicalGood,
+                   nodeDict,
+                   childEPCsList=childEPCsList,
+                   quantity=quantity,
+                   disposition=disposition,
+                   bizTransactionList = bizTransactionList,
+                   bizStep=bizStep,
+                   sourceDestList=sourceDestList,
+                   ilmd=ilmd,
+                   extensions=extensions)
+    
+    document['action'] = "DELETE"
+    
+    #insert record
+    db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
+    result = db['ObjectEvent'].insert_one(document)
+    
+    return result

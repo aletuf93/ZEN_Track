@@ -11,7 +11,7 @@ if  __name__ == "__main__":
 from database.entities.node import node
 from database.entities.physicalGood import physicalGood
 from database.entities.node import nodeTypeDict
-from database.models.ObjectEvent import ADDobjectEvent
+from database.models.ObjectEvent import ADDobjectEvent, OBSERVEobjectEvent, DELETEobjectEvent
 
 
 # %% set supply chain parameters
@@ -38,7 +38,9 @@ max_z = 0
 num_EPCs = int(1e4)
 
 #num transactions
-num_obj_ADD = 2
+num_obj_ADD = 20
+num_obj_OBSERVE = 20
+num_obj_DELETE = 20
 
 # %% generate entities
 
@@ -100,8 +102,9 @@ for i in range(0,num_EPCs):
     
 
 
-# %% define an objectEvent
+# %% define objectEvents
 
+#add objsect
 for i in range (0,num_obj_ADD):
 
     #random choose a node
@@ -117,3 +120,40 @@ for i in range (0,num_obj_ADD):
     result = ADDobjectEvent(physicalGood=chooseEpc,
                        nodeDict=chooseNode.__dict__,
                        )
+  
+#observe object
+for i in range (0,num_obj_OBSERVE):
+
+    #random choose a node
+    node_key = random.choice(list(nodesDict.keys()))
+    chooseNode = nodesDict[node_key]
+    
+    #random coose an epc
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc= EPCsDict[epc_key]
+    
+    
+    
+    result = OBSERVEobjectEvent(physicalGood=chooseEpc,
+                       nodeDict=chooseNode.__dict__,
+                       )
+    
+#delete object
+for i in range (0,num_obj_OBSERVE):
+
+    #random choose a node
+    node_key = random.choice(list(nodesDict.keys()))
+    chooseNode = nodesDict[node_key]
+    
+    #random coose an epc
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc= EPCsDict[epc_key]
+    
+    
+    
+    result = DELETEobjectEvent(physicalGood=chooseEpc,
+                       nodeDict=chooseNode.__dict__,
+                       )
+    
+
+
