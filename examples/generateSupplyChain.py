@@ -13,6 +13,7 @@ from database.entities.physicalGood import physicalGood
 from database.entities.node import nodeTypeDict
 from database.models.ObjectEvent import ADDobjectEvent, OBSERVEobjectEvent, DELETEobjectEvent
 from database.models.AggregationEvent import ADDaggregationEvent, OBSERVEaggregationEvent, DELETEaggregationEvent
+from database.models.TransactionEvent import ADDtransactionEvent
 
 # %% set supply chain parameters
 num_wh = 5
@@ -37,15 +38,20 @@ max_z = 0
 #num EPCs
 num_EPCs = int(1e4)
 
-#num transactions
+#num object events
 num_obj_ADD = 20
 num_obj_OBSERVE = 20
 num_obj_DELETE = 20
 
-#num transactions
+#num aggregation events
 num_agg_ADD = 20
 num_agg_OBSERVE = 20
 num_agg_DELETE = 20
+
+#num transaction events
+num_tra_ADD = 20
+num_tra_OBSERVE = 20
+num_tra_DELETE = 20
 
 
 # %% generate entities
@@ -217,4 +223,35 @@ for i in range (0,num_agg_DELETE):
     result = DELETEaggregationEvent(physicalGood_parent=chooseEpc_parent,
                     physicalGood_child=chooseEpc_child,
                     )
+    
+# %% transaction events
+
+#add aggregation
+for i in range (0,num_tra_ADD):
+
+        
+    #random choose a node
+    node_key = random.choice(list(nodesDict.keys()))
+    chooseNode = nodesDict[node_key]
+    
+    #random coose an epc
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc= EPCsDict[epc_key]
+    
+    #random lot number
+    bizTransactionLot = np.random.randint(1e6)
+    
+    #random choose a destination node
+    node_key = random.choice(list(nodesDict.keys()))
+    chooseNode_destination = nodesDict[node_key]
+    
+    
+    
+    
+    result = ADDtransactionEvent(physicalGood=chooseEpc,
+                   nodeDict = chooseNode.__dict__,
+                   bizTransactionList = bizTransactionLot,
+                   DestnodeDict = chooseNode_destination.__dict__,
+                   )
+    
 

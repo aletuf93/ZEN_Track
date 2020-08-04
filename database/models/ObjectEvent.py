@@ -17,8 +17,7 @@ class ObjectEvent(event):
     eventID = odm.ObjectIdField(primary_key=True, required=True) #A globally unique identifier across all the events
         #physical entity
     epcList = odm.ListField() #A list of observed EPCs naming the physical objects
-    childEPCs = odm.ListField() #An unordered list of the EPCs of contained objects (contained)
-        #action
+    
     action = odm.StringField() #How an event relates to the lifecycle of the entity being described {ADD, OBSERVE, DELETE}
         #quantity
     quantity = odm.FloatField(required=True) #The quantity of objects with the class (i.e. specific packaging unit) described by this event
@@ -40,7 +39,6 @@ class ObjectEvent(event):
 # %%
 def defineObjectEvent(physicalGood,
                    nodeDict,
-                   childEPCsList=[],
                    quantity=np.nan,
                    disposition=None,
                    bizTransactionList = None,
@@ -59,7 +57,6 @@ def defineObjectEvent(physicalGood,
     #what
     #each event involves a single epc        
     document['epc'] = physicalGood.epc
-    document['childEPCs'] = childEPCsList
     document['quantity'] = quantity
     
     #where
@@ -90,7 +87,6 @@ def defineObjectEvent(physicalGood,
 
 def ADDobjectEvent(physicalGood,
                    nodeDict,
-                   childEPCsList=[],
                    quantity=np.nan,
                    disposition=None,
                    bizTransactionList = None,
@@ -100,9 +96,8 @@ def ADDobjectEvent(physicalGood,
                    extensions={},
                    dbname="EPCIS_DB"):
     
-    document = defineObjectEvent(physicalGood,
-                   nodeDict,
-                   childEPCsList=childEPCsList,
+    document = defineObjectEvent(physicalGood=physicalGood,
+                   nodeDict=nodeDict,
                    quantity=quantity,
                    disposition=disposition,
                    bizTransactionList = bizTransactionList,
@@ -122,7 +117,6 @@ def ADDobjectEvent(physicalGood,
 # %%
 def OBSERVEobjectEvent(physicalGood,
                    nodeDict,
-                   childEPCsList=[],
                    quantity=np.nan,
                    disposition=None,
                    bizTransactionList = None,
@@ -132,9 +126,8 @@ def OBSERVEobjectEvent(physicalGood,
                    extensions={},
                    dbname="EPCIS_DB"):
     
-    document = defineObjectEvent(physicalGood,
-                   nodeDict,
-                   childEPCsList=childEPCsList,
+    document = defineObjectEvent(physicalGood=physicalGood,
+                   nodeDict=nodeDict,
                    quantity=quantity,
                    disposition=disposition,
                    bizTransactionList = bizTransactionList,
@@ -155,7 +148,7 @@ def OBSERVEobjectEvent(physicalGood,
 # %%
 def DELETEobjectEvent(physicalGood,
                    nodeDict,
-                   childEPCsList=[],
+                   
                    quantity=np.nan,
                    disposition=None,
                    bizTransactionList = None,
@@ -165,9 +158,8 @@ def DELETEobjectEvent(physicalGood,
                    extensions={},
                    dbname="EPCIS_DB"):
     
-    document = defineObjectEvent(physicalGood,
-                   nodeDict,
-                   childEPCsList=childEPCsList,
+    document = defineObjectEvent(physicalGood=physicalGood,
+                   nodeDict=nodeDict,
                    quantity=quantity,
                    disposition=disposition,
                    bizTransactionList = bizTransactionList,
