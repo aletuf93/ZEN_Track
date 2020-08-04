@@ -14,6 +14,7 @@ from database.entities.node import nodeTypeDict
 from database.models.ObjectEvent import ADDobjectEvent, OBSERVEobjectEvent, DELETEobjectEvent
 from database.models.AggregationEvent import ADDaggregationEvent, OBSERVEaggregationEvent, DELETEaggregationEvent
 from database.models.TransactionEvent import ADDtransactionEvent, OBSERVEtransactionEvent, DELETEtransactionEvent
+from database.models.TransformationEvent import ADDtransformationEvent, OBSERVEtransformationEvent, DELETEtransformationEvent
 
 # %% set supply chain parameters
 num_wh = 5
@@ -39,19 +40,24 @@ max_z = 0
 num_EPCs = int(1e4)
 
 #num object events
-num_obj_ADD = 20
-num_obj_OBSERVE = 20
-num_obj_DELETE = 20
+num_obj_ADD = 200
+num_obj_OBSERVE = 200
+num_obj_DELETE = 200
 
 #num aggregation events
-num_agg_ADD = 20
-num_agg_OBSERVE = 20
-num_agg_DELETE = 20
+num_agg_ADD = 200
+num_agg_OBSERVE = 200
+num_agg_DELETE = 200
 
 #num transaction events
-num_tra_ADD = 20
-num_tra_OBSERVE = 20
-num_tra_DELETE = 20
+num_tra_ADD = 200
+num_tra_OBSERVE = 200
+num_tra_DELETE = 200
+
+#num transformation events
+num_trasf_ADD = 200
+num_trasf_OBSERVE = 200
+num_trasf_DELETE = 200
 
 
 # %% generate entities
@@ -311,4 +317,68 @@ for i in range (0,num_tra_DELETE):
                    DestnodeDict = chooseNode_destination.__dict__,
                    )
     
+# %%
 
+#add transformation
+for i in range (0,num_trasf_ADD):
+
+        
+        
+    #random coose an epc
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_input= EPCsDict[epc_key]
+    
+    #random coose an epc
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_output= EPCsDict[epc_key]
+    
+    
+    
+    
+    result = ADDtransformationEvent(chooseEpc_input,
+                             chooseEpc_output,
+                             )
+    
+# %%
+
+#observe transformation
+for i in range (0,num_trasf_OBSERVE):
+
+        
+        
+    #random coose an epc
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_input= EPCsDict[epc_key]
+    
+    #random coose an epc
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_output= EPCsDict[epc_key]
+    
+    
+    
+    
+    result = OBSERVEtransformationEvent(chooseEpc_input,
+                             chooseEpc_output,
+                             )
+    
+# %%
+
+#delete transformation
+for i in range (0,num_trasf_DELETE):
+
+        
+        
+    #random coose an epc
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_input= EPCsDict[epc_key]
+    
+    #random coose an epc
+    epc_key = random.choice(list(EPCsDict.keys()))
+    chooseEpc_output= EPCsDict[epc_key]
+    
+    
+    
+    
+    result = DELETEtransformationEvent(chooseEpc_input,
+                             chooseEpc_output,
+                             )
