@@ -114,3 +114,59 @@ def ADDtransactionEvent(physicalGood,
     result = db['TransactionEvent'].insert_one(document)
     
     return result
+
+# %%
+def OBSERVEtransactionEvent(physicalGood,
+                   nodeDict,
+                   bizTransactionList,
+                   DestnodeDict,
+                   bizStep=None,
+                   parentID=[],
+                   disposition=None,
+                   extensions={},
+                   dbname="EPCIS_DB"):
+    
+    document = defineTransactionEvent(physicalGood= physicalGood,
+                   nodeDict=nodeDict,
+                   bizTransactionList=bizTransactionList,
+                   DestnodeDict=DestnodeDict,
+                   bizStep=bizStep,
+                   parentID=parentID,
+                   disposition=disposition,
+                   extensions=extensions)
+    
+    document['action'] = "OBSERVE"
+    
+    #insert record
+    db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
+    result = db['TransactionEvent'].insert_one(document)
+    
+    return result
+
+# %%
+def DELETEtransactionEvent(physicalGood,
+                   nodeDict,
+                   bizTransactionList,
+                   DestnodeDict,
+                   bizStep=None,
+                   parentID=[],
+                   disposition=None,
+                   extensions={},
+                   dbname="EPCIS_DB"):
+    
+    document = defineTransactionEvent(physicalGood= physicalGood,
+                   nodeDict=nodeDict,
+                   bizTransactionList=bizTransactionList,
+                   DestnodeDict=DestnodeDict,
+                   bizStep=bizStep,
+                   parentID=parentID,
+                   disposition=disposition,
+                   extensions=extensions)
+    
+    document['action'] = "DELETE"
+    
+    #insert record
+    db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
+    result = db['TransactionEvent'].insert_one(document)
+    
+    return result
