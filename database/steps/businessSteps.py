@@ -143,31 +143,6 @@ def shipping():
     '''
     pass
 
-
-
-# %%
-storing_disp=['expired','no_pedigree_match','non_sellable_other','recalled',
-              'sellable_not_accessible']
-
-def storing():
-    '''
-    Denotes a specific activity within a business process where an object is 
-    moved into and out of storage within a location.
-    TRANSACTION - OBSERVE
-    '''
-    pass
-
-# %%
-def transporting():
-    '''
-    Process of moving an object from one location to another using a 
-    vehicle (e.g., a ship, a train, a lorry, an aircraft).
-    TRANSACTION - OBSERVE
-    '''
-    pass
-
-
-
 # %%
 def unpacking():
     '''

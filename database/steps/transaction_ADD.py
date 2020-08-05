@@ -24,7 +24,7 @@ def consigning(physicalGoodDict,
     
     '''
     bizStep='consigning'
-    if disposition in transactionList:
+    if transactionType in transactionList:
         result = ADDtransactionEvent(physicalGoodDict,
                    nodeDict,
                    bizTransactionList,
@@ -60,7 +60,7 @@ def receiving(physicalGoodDict,
     
     '''
     bizStep='receiving'
-    if disposition in transactionList:
+    if transactionType in transactionList:
         result = ADDtransactionEvent(physicalGoodDict,
                    nodeDict,
                    bizTransactionList,
