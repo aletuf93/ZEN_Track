@@ -32,7 +32,7 @@ def accepting(     physicalGoodDict,
                        extensions=extensions,
                        dbname="EPCIS_DB")
     else:
-        raise Exception(f"Invalid disposition 'f{disposition}' for step '{bizStep}', chose between {accepting_disp}")
+        raise Exception(f"Invalid disposition '{disposition}' for step '{bizStep}', chose between {accepting_disp}")
     return result
 
 # %%
@@ -68,7 +68,7 @@ def arriving(physicalGoodDict,
                        dbname="EPCIS_DB")
     
     else:
-        raise Exception(f"Invalid disposition 'f{disposition}' for step '{bizStep}', chose between {arriving_disp}")
+        raise Exception(f"Invalid disposition '{disposition}' for step '{bizStep}', chose between {arriving_disp}")
     return result
 # %%
 def cycle_counting(physicalGoodDict,
@@ -134,7 +134,7 @@ def departing(physicalGoodDict,
                        extensions=extensions,
                        dbname="EPCIS_DB")
     else:
-        raise Exception(f"Invalid disposition 'f{disposition}' for step '{bizStep}', chose between {departing_disp}")
+        raise Exception(f"Invalid disposition '{disposition}' for step '{bizStep}', chose between {departing_disp}")
     return result
 
 # %%
@@ -169,7 +169,7 @@ def entering_exiting(physicalGoodDict,
                        extensions=extensions,
                        dbname="EPCIS_DB")
     else:
-        raise Exception(f"Invalid disposition 'f{disposition}' for step '{bizStep}', chose between {entering_exiting}")
+        raise Exception(f"Invalid disposition '{disposition}' for step '{bizStep}', chose between {entering_exiting}")
     return result
 
 # %%
@@ -204,7 +204,7 @@ def inspecting(physicalGoodDict,
                        extensions=extensions,
                        dbname="EPCIS_DB")
     else:
-        raise Exception(f"Invalid disposition 'f{disposition}' for step '{bizStep}', chose between {inspecting_disp}")
+        raise Exception(f"Invalid disposition '{disposition}' for step '{bizStep}', chose between {inspecting_disp}")
     return result
 # %%
 repairing_disp=['damaged','repaired']
@@ -239,7 +239,7 @@ def repairing(physicalGoodDict,
                        extensions=extensions,
                        dbname="EPCIS_DB")
     else:
-        raise Exception(f"Invalid disposition 'f{disposition}' for step '{bizStep}', chose between {repairing_disp}")
+        raise Exception(f"Invalid disposition '{disposition}' for step '{bizStep}', chose between {repairing_disp}")
     return result    
 # %%
 replacing_disp=['replaced','damaged']
@@ -273,7 +273,7 @@ def replacing(physicalGoodDict,
                        extensions=extensions,
                        dbname="EPCIS_DB")
     else:
-        raise Exception(f"Invalid disposition 'f{disposition}' for step '{bizStep}', chose between {replacing_disp}")
+        raise Exception(f"Invalid disposition '{disposition}' for step '{bizStep}', chose between {replacing_disp}")
     return result    
 # %%
 staging_outbound_disp=['ready to ship','container_closed','expired','in_progress','no_pedigree_match',
@@ -308,7 +308,7 @@ def staging_outbound(physicalGoodDict,
                        extensions=extensions,
                        dbname="EPCIS_DB")
     else:
-        raise Exception(f"Invalid disposition 'f{disposition}' for step '{bizStep}', chose between {staging_outbound_disp}")
+        raise Exception(f"Invalid disposition '{disposition}' for step '{bizStep}', chose between {staging_outbound_disp}")
     return result    
 # %%
 def stock_taking(physicalGoodDict,

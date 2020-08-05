@@ -76,34 +76,11 @@ def creating_class_instance():
 
 
 
-# %%
-decommissioning=['inactive']
-
-def decommissioning():
-    '''
-    Process of disassociating an instance-level identifier (such as an EPC) 
-    with an object. The object may be re-commissioned at some point in the 
-    future – however only with a new instance-level identifier.
-    OBJECT - DELETE
-    '''
-    pass
 
 
 
-# %%
-destroying_disp=['destroyed']
 
-def destroying():
-    '''
-    Process of terminating an object. For an instance-level identifier, 
-    the object should not be the subject of subsequent events; subsequent 
-    events are likely indicative of error (such as a stray read of a tag 
-    inside an incinerator). For a class level identifier, quantities are 
-    reduced; however, the class-level identifier may still be used in 
-    subsequent events (referring to different instances that were not destroyed).
-    OBJECT - DELETE
-    '''
-    pass
+
 
 # %%
 def disassembling():
@@ -114,54 +91,17 @@ def disassembling():
     '''
     pass
 
-# %%
-dispensing_disp=['dispensed','partially_dispensed']
-def dispensing():
-    '''
-    Denotes a specific activity within a business process where a product 
-    is made available in full or part to a consumer.
-    OBJECT - DELETE
-    '''
-    pass
-
-# %%
-encoding_disp=['encoded']
-
-def encoding():
-    '''
-    Process of writing an instance-level identifier (typically an EPC) 
-    to a barcode or RFID tag, where the identifier is not yet associated 
-    with an object at this step in the process.
-    OBJECT - ADD
-    '''
-    pass
 
 
 
-# %%
-holding_disp=['expired','no_pedigree_match','non_sellable_other','recalled',
-              'returned''sellable_not_accessible']
-
-def holding():
-    '''
-    Denotes a specific activity within a business process where an object is 
-    segregated for further review.
-    OBJECT - DELETE
-    '''
-    pass
 
 
 
-# %%
-def installing():
-    '''
-    Denotes a specific activity within a business process where an object 
-    is put into a composite object (not merely a container).
-    In installing the composite object exists prior to this step, whereas 
-    in assembling the composite object is created during the step.
-    OBJECT - ADD
-    '''
-    pass
+
+
+
+
+
 
 # %%
 def killing():
@@ -174,16 +114,7 @@ def killing():
     '''
     pass
 
-# %%
-loading_disp=['in_progress','sellable_not_accessible']
 
-def loading():
-    '''
-    Denotes a specific activity within a business process where an object is 
-    loaded into shipping conveyance.
-    OBJECT - ADD
-    '''
-    pass
 
 # %%
 def packing():
@@ -195,16 +126,7 @@ def packing():
     '''
     pass
 
-# %%
-picking_disp=['in_progress']
 
-def picking():
-    '''
-    Denotes a specific activity within a business process that includes the 
-    selecting of objects to fill an order.
-    OBJECT - DELETE
-    '''
-    pass
 
 # %%
 receiving_disp=['damaged','in_progress','returned','sellable_accessible','sellable_not_accessible']
@@ -221,16 +143,7 @@ def receiving():
     '''
     pass
 
-# %%
-removing_disp=['damaged']
 
-def removing():
-    '''
-    Denotes a specific activity within a business process where an object is 
-    taken out of a composite object.
-    OBJECT - DELETE
-    '''
-    pass
 
 # %%
 def repackaging():
@@ -245,16 +158,7 @@ def repackaging():
 
 
 
-# %%
-reserving_disp=['reserved']
 
-def reserving():
-    '''
-    Process in which a set of instance-level identifiers, not yet 
-    commissioned, are provided for use by another party.
-    OBJECT - DELETE
-    '''
-    pass
 
 # %%
 retail_selling_disp=['retail_sold']
@@ -283,17 +187,7 @@ def shipping():
     '''
     pass
 
-# %%
-stocking_disp=['sellable_accessible']
 
-def stocking():
-    '''
-    Denotes a specific activity within a business process within a location 
-    to make an object available to the customer or for order fulfilment 
-    within a DC.
-    OBJECT - ADD
-    '''
-    pass
 
 # %%
 storing_disp=['expired','no_pedigree_match','non_sellable_other','recalled',
@@ -316,14 +210,7 @@ def transporting():
     '''
     pass
 
-# %%
-def unloading():
-    '''
-    Denotes a specific activity within a business process where an object 
-    is unloaded from a shipping conveyance.
-    OBJECT - DELETE
-    '''
-    pass
+
 
 # %%
 def unpacking():
@@ -336,13 +223,3 @@ def unpacking():
     '''
     pass
 
-# %%
-void_shipping_disp=['in_progress']
-def void_shipping():
-    '''
-    Denotes a process of declaring that one or more objects in a prior outbound 
-    process (captured in an EPCIS event having business step shipping, departing, 
-    or consigning) were not shipped (or departed or consigned) as previously indicated.
-    OBJECT - DELETE
-    '''
-    pass
