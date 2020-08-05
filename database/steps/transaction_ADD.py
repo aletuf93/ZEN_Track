@@ -32,9 +32,9 @@ def consigning(physicalGoodDict,
                    quantity,
                    quantity_udm,
                    bizStep=bizStep,
-                   parentID=[],
+                   parentID=parentID,
                    disposition=transactionType,
-                   extensions={},
+                   extensions=extensions,
                    dbname="EPCIS_DB")
      else:
         raise Exception(f"Invalid transaction Type '{disposition}' for step '{bizStep}', chose between {transactionList}")
@@ -48,9 +48,9 @@ def receiving(physicalGoodDict,
                    DestnodeDict,
                    quantity,
                    quantity_udm,
-                   parentID=[],
+                   parentID=parentID,
                    transactionType='bol',
-                   extensions={},
+                   extensions=extensions,
                    dbname="EPCIS_DB"):
     '''
     Denotes a specific activity within a business process that indicates 
@@ -68,9 +68,9 @@ def receiving(physicalGoodDict,
                    quantity,
                    quantity_udm,
                    bizStep=bizStep,
-                   parentID=[],
+                   parentID=parentID,
                    disposition=transactionType,
-                   extensions={},
+                   extensions=extensions,
                    dbname="EPCIS_DB")
      else:
         raise Exception(f"Invalid transaction Type '{disposition}' for step '{bizStep}', chose between {transactionList}")

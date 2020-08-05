@@ -190,3 +190,4 @@ def DELETEtransactionEvent(physicalGoodDict,
     result = db['TransactionEvent'].insert_one(document)
     
     return result
+

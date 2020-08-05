@@ -29,7 +29,7 @@ def storing(physicalGoodDict,
                    quantity_udm,
                    bizStep=bizStep,
                    parentID=[],
-                   disposition=disposition,
+                   disposition=transactionType,
                    extensions={},
                    dbname="EPCIS_DB")
      else:
@@ -62,9 +62,9 @@ def transporting(physicalGoodDict,
                    quantity,
                    quantity_udm,
                    bizStep=bizStep,
-                   parentID=[],
-                   disposition=disposition,
-                   extensions={},
+                   parentID=parentID,
+                   disposition=transactionType,
+                   extensions=extensions,
                    dbname="EPCIS_DB")
      else:
         raise Exception(f"Invalid transaction Type '{disposition}' for step '{bizStep}', chose between {transactionList}")
