@@ -4,7 +4,7 @@ import mongoengine as odm
 import datetime
 
 #import dependences
-from database.models.Event import event 
+from database.events.Event import event 
 import database.mongo_loginManager as mdb
 
 
@@ -37,8 +37,8 @@ class AggregationEvent(event):
     extensions = odm.ListField() #This identifies the addition of new data members, list of additional attributes
 
 # %%    
-def defineAggregationEvent(physicalGood_parent,
-                           physicalGood_child,
+def defineAggregationEvent(physicalGoodDict_parent,
+                           physicalGoodDict_child,
                            nodeDict=[],
                            disposition=None,
                            bizTransactionList = None,
@@ -55,8 +55,8 @@ def defineAggregationEvent(physicalGood_parent,
         
     #what
     #each event involves a single epc        
-    document['parentID'] = physicalGood_parent.epc
-    document['childEPCs'] = physicalGood_child.epc
+    document['parentID'] = physicalGoodDict_parent.epc
+    document['childEPCs'] = physicalGoodDict_child.epc
     
     
     #where
@@ -82,8 +82,8 @@ def defineAggregationEvent(physicalGood_parent,
     return document
 
 # %%
-def ADDaggregationEvent(physicalGood_parent,
-                    physicalGood_child,
+def ADDaggregationEvent(physicalGoodDict_parent,
+                    physicalGoodDict_child,
                     nodeDict=[],
                     disposition=None,
                     bizTransactionList = None,
@@ -92,8 +92,8 @@ def ADDaggregationEvent(physicalGood_parent,
                     extensions={},
                     dbname="EPCIS_DB"):
     
-    document = defineAggregationEvent(physicalGood_parent,
-                    physicalGood_child,
+    document = defineAggregationEvent(physicalGoodDict_parent,
+                    physicalGoodDict_child,
                     nodeDict=nodeDict,
                     disposition=disposition,
                     bizTransactionList = bizTransactionList,
@@ -110,8 +110,8 @@ def ADDaggregationEvent(physicalGood_parent,
     return result
 
 # %%
-def OBSERVEaggregationEvent(physicalGood_parent,
-                    physicalGood_child,
+def OBSERVEaggregationEvent(physicalGoodDict_parent,
+                    physicalGoodDict_child,
                     nodeDict=[],
                     disposition=None,
                     bizTransactionList = None,
@@ -120,8 +120,8 @@ def OBSERVEaggregationEvent(physicalGood_parent,
                     extensions={},
                     dbname="EPCIS_DB"):
     
-    document = defineAggregationEvent(physicalGood_parent,
-                    physicalGood_child,
+    document = defineAggregationEvent(physicalGoodDict_parent,
+                    physicalGoodDict_child,
                     nodeDict=nodeDict,
                     disposition=disposition,
                     bizTransactionList = bizTransactionList,
@@ -138,8 +138,8 @@ def OBSERVEaggregationEvent(physicalGood_parent,
     return result
 
 # %%
-def DELETEaggregationEvent(physicalGood_parent,
-                    physicalGood_child,
+def DELETEaggregationEvent(physicalGoodDict_parent,
+                    physicalGoodDict_child,
                     nodeDict=[],
                     disposition=None,
                     bizTransactionList = None,
@@ -148,8 +148,8 @@ def DELETEaggregationEvent(physicalGood_parent,
                     extensions={},
                     dbname="EPCIS_DB"):
     
-    document = defineAggregationEvent(physicalGood_parent,
-                    physicalGood_child,
+    document = defineAggregationEvent(physicalGoodDict_parent,
+                    physicalGoodDict_child,
                     nodeDict=nodeDict,
                     disposition=disposition,
                     bizTransactionList = bizTransactionList,

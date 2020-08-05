@@ -6,7 +6,7 @@ import numpy as np
 import datetime
 
 #import dependences
-from database.models.Event import event 
+from database.events.Event import event 
 import database.mongo_loginManager as mdb
 
 
@@ -29,6 +29,7 @@ class TransformationEvent(event):
     xformID = odm.StringField() # (URN identifier) An identifier for the transformation that compiles with the requirement of uniform resource name (URN) syntax
         #quantity
     quantity = odm.FloatField() #The quantity of objects with the class (i.e. specific packaging unit) described by this event
+    quantity_udm = odm.StringField() #Unit of measure of the quantity
     
     #where
     readPoint = odm.StringField() #The specific location at which EPCIS event took place
@@ -46,11 +47,12 @@ class TransformationEvent(event):
 
     
 # %%
-def defineTranformationEvent(physicalGood_input,
-                             physicalGood_output,
+def defineTranformationEvent(physicalGoodDict_input,
+                             physicalGoodDict_output,
                              epcClass=None,
                              xformID=None,
                              quantity=np.nan,
+                             quantity_udm=None,
                              nodeDict=None,
                              disposition=None,
                              bizStep=None,
@@ -80,11 +82,12 @@ def defineTranformationEvent(physicalGood_input,
         
     #what
     #each event involves a single epc        
-    document['inputEpc'] = physicalGood_input.epc
-    document['outputEpc'] = physicalGood_output.epc
+    document['inputEpc'] = physicalGoodDict_input.epc
+    document['outputEpc'] = physicalGoodDict_output.epc
     document['epcClass'] = epcClass 
     document['xformID'] = xformID
     document['quantity'] = quantity
+    document['quantity_udm'] = quantity_udm
     
     
     
@@ -112,11 +115,12 @@ def defineTranformationEvent(physicalGood_input,
 
 # %%
 
-def ADDtransformationEvent(physicalGood_input,
-                             physicalGood_output,
+def ADDtransformationEvent(physicalGoodDict_input,
+                             physicalGoodDict_output,
                              epcClass=None,
                              xformID=None,
                              quantity=np.nan,
+                             quantity_udm=None,
                              nodeDict=None,
                              disposition=None,
                              bizStep=None,
@@ -124,11 +128,12 @@ def ADDtransformationEvent(physicalGood_input,
                              extensions={},
                              dbname="EPCIS_DB"):
     
-    document = defineTranformationEvent(physicalGood_input=physicalGood_input,
-                             physicalGood_output=physicalGood_output,
+    document = defineTranformationEvent(physicalGoodDict_input=physicalGoodDict_input,
+                             physicalGoodDict_output=physicalGoodDict_output,
                              epcClass=epcClass,
                              xformID=xformID,
                              quantity=quantity,
+                             quantity_udm=quantity_udm,
                              nodeDict=nodeDict,
                              disposition=disposition,
                              bizStep=bizStep,
@@ -145,11 +150,12 @@ def ADDtransformationEvent(physicalGood_input,
 
 # %%
 
-def OBSERVEtransformationEvent(physicalGood_input,
-                             physicalGood_output,
+def OBSERVEtransformationEvent(physicalGoodDict_input,
+                             physicalGoodDict_output,
                              epcClass=None,
                              xformID=None,
                              quantity=np.nan,
+                             quantity_udm=None,
                              nodeDict=None,
                              disposition=None,
                              bizStep=None,
@@ -157,11 +163,12 @@ def OBSERVEtransformationEvent(physicalGood_input,
                              extensions={},
                              dbname="EPCIS_DB"):
     
-    document = defineTranformationEvent(physicalGood_input=physicalGood_input,
-                             physicalGood_output=physicalGood_output,
+    document = defineTranformationEvent(physicalGoodDict_input=physicalGoodDict_input,
+                             physicalGoodDict_output=physicalGoodDict_output,
                              epcClass=epcClass,
                              xformID=xformID,
                              quantity=quantity,
+                             quantity_udm=quantity_udm,
                              nodeDict=nodeDict,
                              disposition=disposition,
                              bizStep=bizStep,
@@ -178,11 +185,12 @@ def OBSERVEtransformationEvent(physicalGood_input,
 
 # %%
 
-def DELETEtransformationEvent(physicalGood_input,
-                             physicalGood_output,
+def DELETEtransformationEvent(physicalGoodDict_input,
+                             physicalGoodDict_output,
                              epcClass=None,
                              xformID=None,
                              quantity=np.nan,
+                             quantity_udm=None,
                              nodeDict=None,
                              disposition=None,
                              bizStep=None,
@@ -190,11 +198,12 @@ def DELETEtransformationEvent(physicalGood_input,
                              extensions={},
                              dbname="EPCIS_DB"):
     
-    document = defineTranformationEvent(physicalGood_input=physicalGood_input,
-                             physicalGood_output=physicalGood_output,
+    document = defineTranformationEvent(physicalGoodDict_input=physicalGoodDict_input,
+                             physicalGoodDict_output=physicalGoodDict_output,
                              epcClass=epcClass,
                              xformID=xformID,
                              quantity=quantity,
+                             quantity_udm=quantity_udm,
                              nodeDict=nodeDict,
                              disposition=disposition,
                              bizStep=bizStep,

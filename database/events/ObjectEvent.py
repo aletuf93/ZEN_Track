@@ -4,7 +4,7 @@ import datetime
 import numpy as np
 
 #import dependences
-from database.models.Event import event 
+from database.events.Event import event 
 import database.mongo_loginManager as mdb
 
 # %% class objectEvent model
@@ -21,7 +21,7 @@ class ObjectEvent(event):
     action = odm.StringField() #How an event relates to the lifecycle of the entity being described {ADD, OBSERVE, DELETE}
         #quantity
     quantity = odm.FloatField(required=True) #The quantity of objects with the class (i.e. specific packaging unit) described by this event
-    
+    quantity_udm = odm.StringField() #Unit of measure of the quantity
     #where
     readPoint = odm.StringField() #The specific location at which EPCIS event took place
     bizLocation = odm.StringField() #The business location where an object is following an EPCIS event
@@ -37,9 +37,10 @@ class ObjectEvent(event):
     extensions = odm.ListField() #This identifies the addition of new data members, list of additional attributes
     
 # %%
-def defineObjectEvent(physicalGood,
+def defineObjectEvent(physicalGoodDict,
                    nodeDict,
                    quantity=np.nan,
+                   quantity_udm=None,
                    disposition=None,
                    bizTransactionList = None,
                    bizStep=None,
@@ -56,9 +57,9 @@ def defineObjectEvent(physicalGood,
         
     #what
     #each event involves a single epc        
-    document['epc'] = physicalGood.epc
+    document['epc'] = physicalGoodDict['epc']
     document['quantity'] = quantity
-    
+    document['quantity_udm'] = quantity_udm
     #where
     document['readPoint_net'] = nodeDict['nodeNet']
     document['readPoint_Type'] = nodeDict['nodeType']
@@ -85,9 +86,10 @@ def defineObjectEvent(physicalGood,
 
 
 
-def ADDobjectEvent(physicalGood,
+def ADDobjectEvent(physicalGoodDict,
                    nodeDict,
                    quantity=np.nan,
+                   quantity_udm=None,
                    disposition=None,
                    bizTransactionList = None,
                    bizStep=None,
@@ -96,9 +98,10 @@ def ADDobjectEvent(physicalGood,
                    extensions={},
                    dbname="EPCIS_DB"):
     
-    document = defineObjectEvent(physicalGood=physicalGood,
+    document = defineObjectEvent(physicalGoodDict=physicalGoodDict,
                    nodeDict=nodeDict,
                    quantity=quantity,
+                   quantity_udm=quantity_udm,
                    disposition=disposition,
                    bizTransactionList = bizTransactionList,
                    bizStep=bizStep,
@@ -115,9 +118,10 @@ def ADDobjectEvent(physicalGood,
     return result
 
 # %%
-def OBSERVEobjectEvent(physicalGood,
+def OBSERVEobjectEvent(physicalGoodDict,
                    nodeDict,
                    quantity=np.nan,
+                   quantity_udm=None,
                    disposition=None,
                    bizTransactionList = None,
                    bizStep=None,
@@ -126,9 +130,10 @@ def OBSERVEobjectEvent(physicalGood,
                    extensions={},
                    dbname="EPCIS_DB"):
     
-    document = defineObjectEvent(physicalGood=physicalGood,
+    document = defineObjectEvent(physicalGoodDict=physicalGoodDict,
                    nodeDict=nodeDict,
                    quantity=quantity,
+                   quantity_udm=quantity_udm,
                    disposition=disposition,
                    bizTransactionList = bizTransactionList,
                    bizStep=bizStep,
@@ -146,10 +151,10 @@ def OBSERVEobjectEvent(physicalGood,
 
 
 # %%
-def DELETEobjectEvent(physicalGood,
+def DELETEobjectEvent(physicalGoodDict,
                    nodeDict,
-                   
                    quantity=np.nan,
+                   quantity_udm=None,
                    disposition=None,
                    bizTransactionList = None,
                    bizStep=None,
@@ -158,9 +163,10 @@ def DELETEobjectEvent(physicalGood,
                    extensions={},
                    dbname="EPCIS_DB"):
     
-    document = defineObjectEvent(physicalGood=physicalGood,
+    document = defineObjectEvent(physicalGoodDict=physicalGoodDict,
                    nodeDict=nodeDict,
                    quantity=quantity,
+                   quantity_udm=quantity_udm,
                    disposition=disposition,
                    bizTransactionList = bizTransactionList,
                    bizStep=bizStep,

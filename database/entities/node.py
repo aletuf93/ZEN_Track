@@ -31,8 +31,8 @@ distributionList = ["Truck",
                     "DockingArea"
                     ]
 
-productionList = ["Production machine",
-                    "Assembly machine",
+productionList = ["ProductionMachine",
+                    "AssemblyMachine",
                     "Production workbench",
                     "Assembly workbench",
                     "Buffer",

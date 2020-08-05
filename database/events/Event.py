@@ -22,6 +22,7 @@ class event(odm.DynamicDocument):
     xformID = odm.StringField() # (URN identifier) An identifier for the transformation that compiles with the requirement of uniform resource name (URN) syntax
         #quantity
     quantity = odm.FloatField() #The quantity of objects with the class (i.e. specific packaging unit) described by this event
+    quantity_udm = odm.StringField() #Unit of measure of the quantity
     
     #where
     readPoint = odm.StringField() #The specific location at which EPCIS event took place

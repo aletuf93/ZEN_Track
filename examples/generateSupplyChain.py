@@ -11,10 +11,10 @@ if  __name__ == "__main__":
 from database.entities.node import node
 from database.entities.physicalGood import physicalGood
 from database.entities.node import nodeTypeDict
-from database.models.ObjectEvent import ADDobjectEvent, OBSERVEobjectEvent, DELETEobjectEvent
-from database.models.AggregationEvent import ADDaggregationEvent, OBSERVEaggregationEvent, DELETEaggregationEvent
-from database.models.TransactionEvent import ADDtransactionEvent, OBSERVEtransactionEvent, DELETEtransactionEvent
-from database.models.TransformationEvent import ADDtransformationEvent, OBSERVEtransformationEvent, DELETEtransformationEvent
+from database.events.ObjectEvent import ADDobjectEvent, OBSERVEobjectEvent, DELETEobjectEvent
+from database.events.AggregationEvent import ADDaggregationEvent, OBSERVEaggregationEvent, DELETEaggregationEvent
+from database.events.TransactionEvent import ADDtransactionEvent, OBSERVEtransactionEvent, DELETEtransactionEvent
+from database.events.TransformationEvent import ADDtransformationEvent, OBSERVEtransformationEvent, DELETEtransformationEvent
 
 # %% set supply chain parameters
 num_wh = 5

@@ -5,7 +5,7 @@ import mongoengine as odm
 import datetime
 
 #import dependences
-from database.models.Event import event 
+from database.events.Event import event 
 import database.mongo_loginManager as mdb
 
 
@@ -22,7 +22,11 @@ class TransactionEvent(event):
     parentID = odm.StringField() #The identifier of the parent of the association (container)
     
     action = odm.StringField(required=True) #How an event relates to the lifecycle of the entity being described {ADD, OBSERVE, DELETE}
-        #resource
+    
+    #quantity
+    quantity = odm.FloatField(required=True) #The quantity of objects with the class (i.e. specific packaging unit) described by this event
+    quantity_udm = odm.StringField() #Unit of measure of the quantity
+        
    
     #where
     readPoint = odm.StringField() #The specific location at which EPCIS event took place
@@ -36,8 +40,10 @@ class TransactionEvent(event):
     extensions = odm.ListField() #This identifies the addition of new data members, list of additional attributes
 
 # %%
-def defineTransactionEvent(physicalGood,
+def defineTransactionEvent(physicalGoodDict,
                    nodeDict,
+                   quantity,
+                   quantity_udm,
                    bizTransactionList,
                    DestnodeDict,
                    bizStep=None,
@@ -55,9 +61,11 @@ def defineTransactionEvent(physicalGood,
         
     #what
     #each event involves a single epc        
-    document['epc'] = physicalGood.epc
+    document['epc'] = physicalGoodDict.epc
     document['parentID'] = parentID
     
+    document['quantity'] = quantity
+    document['quantity_udm'] = quantity_udm
     
     #where
     document['readPoint_net'] = nodeDict['nodeNet']
@@ -88,20 +96,24 @@ def defineTransactionEvent(physicalGood,
     return document
 # %%
 
-def ADDtransactionEvent(physicalGood,
+def ADDtransactionEvent(physicalGoodDict,
                    nodeDict,
                    bizTransactionList,
                    DestnodeDict,
+                   quantity,
+                   quantity_udm,
                    bizStep=None,
                    parentID=[],
                    disposition=None,
                    extensions={},
                    dbname="EPCIS_DB"):
     
-    document = defineTransactionEvent(physicalGood= physicalGood,
+    document = defineTransactionEvent(physicalGoodDict= physicalGoodDict,
                    nodeDict=nodeDict,
                    bizTransactionList=bizTransactionList,
                    DestnodeDict=DestnodeDict,
+                   quantity=quantity,
+                   quantity_udm=quantity_udm,
                    bizStep=bizStep,
                    parentID=parentID,
                    disposition=disposition,
@@ -116,20 +128,24 @@ def ADDtransactionEvent(physicalGood,
     return result
 
 # %%
-def OBSERVEtransactionEvent(physicalGood,
+def OBSERVEtransactionEvent(physicalGoodDict,
                    nodeDict,
                    bizTransactionList,
                    DestnodeDict,
+                   quantity,
+                   quantity_udm,
                    bizStep=None,
                    parentID=[],
                    disposition=None,
                    extensions={},
                    dbname="EPCIS_DB"):
     
-    document = defineTransactionEvent(physicalGood= physicalGood,
+    document = defineTransactionEvent(physicalGoodDict= physicalGoodDict,
                    nodeDict=nodeDict,
                    bizTransactionList=bizTransactionList,
                    DestnodeDict=DestnodeDict,
+                   quantity=quantity,
+                   quantity_udm=quantity_udm,
                    bizStep=bizStep,
                    parentID=parentID,
                    disposition=disposition,
@@ -144,20 +160,24 @@ def OBSERVEtransactionEvent(physicalGood,
     return result
 
 # %%
-def DELETEtransactionEvent(physicalGood,
+def DELETEtransactionEvent(physicalGoodDict,
                    nodeDict,
                    bizTransactionList,
                    DestnodeDict,
+                   quantity,
+                   quantity_udm,
                    bizStep=None,
                    parentID=[],
                    disposition=None,
                    extensions={},
                    dbname="EPCIS_DB"):
     
-    document = defineTransactionEvent(physicalGood= physicalGood,
+    document = defineTransactionEvent(physicalGoodDict= physicalGoodDict,
                    nodeDict=nodeDict,
                    bizTransactionList=bizTransactionList,
                    DestnodeDict=DestnodeDict,
+                   quantity=quantity,
+                   quantity_udm=quantity_udm,
                    bizStep=bizStep,
                    parentID=parentID,
                    disposition=disposition,
