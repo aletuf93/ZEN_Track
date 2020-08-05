@@ -61,7 +61,7 @@ def defineTransactionEvent(physicalGoodDict,
         
     #what
     #each event involves a single epc        
-    document['epc'] = physicalGoodDict.epc
+    document['epc'] = physicalGoodDict['epc']
     document['parentID'] = parentID
     
     document['quantity'] = quantity

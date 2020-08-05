@@ -82,8 +82,8 @@ def defineTranformationEvent(physicalGoodDict_input,
         
     #what
     #each event involves a single epc        
-    document['inputEpc'] = physicalGoodDict_input.epc
-    document['outputEpc'] = physicalGoodDict_output.epc
+    document['inputEpc'] = physicalGoodDict_input['epc']
+    document['outputEpc'] = physicalGoodDict_output['epc']
     document['epcClass'] = epcClass 
     document['xformID'] = xformID
     document['quantity'] = quantity

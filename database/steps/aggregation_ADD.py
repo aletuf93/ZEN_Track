@@ -1,4 +1,4 @@
-from database.events.TransactionEvent import ADDaggregationEvent
+from database.events.AggregationEvent import ADDaggregationEvent
 
 # %%
 def assembling(physicalGoodDict_parent,

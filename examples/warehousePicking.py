@@ -11,6 +11,9 @@ from database.entities.node import node
 from database.steps.object_OBSERVE import staging_outbound, departing
 from database.steps.object_ADD import loading
 from database.steps.object_DELETE import picking
+from database.steps.aggregation_ADD import packing
+
+
 
 # %% set
 
@@ -47,7 +50,7 @@ outboundAreaNode = node(nodeNet='warehouse',
                       geo_position=(41.413896,15.056329), 
                       plant_position = (1000.0, 2500.0, 0.0))
 
-outboundAreaNode = node(nodeNet='distribution_network', 
+TruckNode = node(nodeNet='distribution_network', 
                       nodeType='Truck', 
                       nodeName='MarioTruck_01', 
                       )
@@ -66,7 +69,56 @@ for index, row in D_list.iterrows():
                 extensions={},
                 dbname="EPCIS_DB")
     
+
     
+# %% define a single pallet load
+
+EPCs_pallet= physicalGood("PALLET_0001")  
+
+# %% aggregate on the pallet
+for index, row in D_list.iterrows():
+    results = packing(physicalGoodDict_parent = row['epc'].__dict__,
+                    physicalGoodDict_child = EPCs_pallet.__dict__,
+                    nodeDict=outboundAreaNode.__dict__,
+                    disposition=None,
+                    bizTransactionList = None,
+                    sourceDestList=[],
+                    extensions={},
+                    dbname="EPCIS_DB")
+    
+# %% ship the pallet
+result = staging_outbound(physicalGoodDict = EPCs_pallet.__dict__,
+                   nodeDict = outboundAreaNode.__dict__,
+                   disposition='ready to ship',
+                   quantity=1,
+                   quantity_udm='pallet',
+                   bizTransactionList = None,
+                   sourceDestList=[],
+                   ilmd=None,
+                   extensions={},
+                   dbname="EPCIS_DB")
+
+result = loading(physicalGoodDict = EPCs_pallet.__dict__,
+                   nodeDict = TruckNode.__dict__,
+                   disposition='in_progress',
+                   quantity=1,
+                   quantity_udm='pallet',
+                   bizTransactionList = None,
+                   sourceDestList=[],
+                   ilmd=None,
+                   extensions={},
+                   dbname="EPCIS_DB")
+
+result = departing(physicalGoodDict = EPCs_pallet.__dict__,
+                   nodeDict = TruckNode.__dict__,
+                   disposition='departed',
+                   quantity=1,
+                   quantity_udm='pallet',
+                   bizTransactionList = None,
+                   sourceDestList=[],
+                   ilmd=None,
+                   extensions={},
+                   dbname="EPCIS_DB")
     
     
 

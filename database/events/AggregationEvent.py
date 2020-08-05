@@ -55,8 +55,8 @@ def defineAggregationEvent(physicalGoodDict_parent,
         
     #what
     #each event involves a single epc        
-    document['parentID'] = physicalGoodDict_parent.epc
-    document['childEPCs'] = physicalGoodDict_child.epc
+    document['parentID'] = physicalGoodDict_parent['epc']
+    document['childEPCs'] = physicalGoodDict_child['epc']
     
     
     #where
