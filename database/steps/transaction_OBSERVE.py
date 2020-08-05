@@ -32,7 +32,7 @@ def storing(physicalGoodDict,
                    disposition=transactionType,
                    extensions={},
                    dbname="EPCIS_DB")
-     else:
+    else:
         raise Exception(f"Invalid transaction Type '{disposition}' for step '{bizStep}', chose between {transactionList}")
     return result
 
@@ -53,7 +53,7 @@ def transporting(physicalGoodDict,
     vehicle (e.g., a ship, a train, a lorry, an aircraft).
     TRANSACTION - OBSERVE
     '''
-    transporting='storing'
+    bizStep='storing'
     if transactionType in transactionList:
         result = OBSERVEtransactionEvent(physicalGoodDict,
                    nodeDict,
@@ -66,6 +66,6 @@ def transporting(physicalGoodDict,
                    disposition=transactionType,
                    extensions=extensions,
                    dbname="EPCIS_DB")
-     else:
+    else:
         raise Exception(f"Invalid transaction Type '{disposition}' for step '{bizStep}', chose between {transactionList}")
     return result
