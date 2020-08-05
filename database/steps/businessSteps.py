@@ -2,7 +2,6 @@
 import numpy as np
 
 #import dependences
-from database.events.ObjectEvent import ADDobjectEvent, OBSERVEobjectEvent, DELETEobjectEvent
 from database.events.AggregationEvent import ADDaggregationEvent, OBSERVEaggregationEvent, DELETEaggregationEvent
 from database.events.TransactionEvent import ADDtransactionEvent, OBSERVEtransactionEvent, DELETEtransactionEvent
 from database.events.TransformationEvent import ADDtransformationEvent, OBSERVEtransformationEvent, DELETEtransformationEvent
@@ -49,20 +48,7 @@ def commissioning():
     '''
     pass
 
-# %%
-def consigning():
-    '''
-    Indicates the overall process of staging_outbound, loading, departing, 
-    and accepting. It may be used when more granular process step information 
-    is unknown or inaccessible.
-    The use of consigning is mutually exclusive from the use of 
-    staging_outbound, loading, departing, and accepting.
-    Note: This business step is similar to shipping, but includes a 
-    change of possession and/or ownership at the outbound side.
-    TRANSACTION - ADD
-    
-    '''
-    pass
+
 
 # %%
 def creating_class_instance():
@@ -92,17 +78,6 @@ def disassembling():
     pass
 
 
-
-
-
-
-
-
-
-
-
-
-
 # %%
 def killing():
     '''
@@ -125,25 +100,6 @@ def packing():
     AGGREGATION - ADD
     '''
     pass
-
-
-
-# %%
-receiving_disp=['damaged','in_progress','returned','sellable_accessible','sellable_not_accessible']
-
-
-
-def receiving():
-    '''
-    Denotes a specific activity within a business process that indicates 
-    that an object is being received at a location and is added to the receiver's inventory.
-    The use of receiving is mutually exclusive from the use of arriving and accepting.
-    TRANSACTION-ADD
-    
-    '''
-    pass
-
-
 
 # %%
 def repackaging():
