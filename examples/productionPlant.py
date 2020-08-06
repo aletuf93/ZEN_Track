@@ -77,25 +77,29 @@ tomato_bottle= physicalGood("tomato_product", tomato_sauce_bottle_class)
 tomato_pack_6_bottles= physicalGood("tomato_pack_6_bottles",tomato_sauce_6bottle_class)
 # %% define nodes
 
-mixing_machine = node(nodeNet='production_plant', 
+mixing_machine = node(nodeId = '0001',
+                      nodeNet='production_plant', 
                       nodeType='ProductionMachine', 
                       nodeName='Tomato mixer 100', 
                       geo_position=(41.413896,15.056329), 
                       plant_position = (1000.0, 2500.0, 0.0))
 
-boiling_machine = node(nodeNet='production_plant', 
+boiling_machine = node(nodeId = '0002',
+                       nodeNet='production_plant', 
                       nodeType='ProductionMachine', 
                       nodeName='Tomato boiler', 
                       geo_position=(41.413896,15.056329), 
                       plant_position = (1000.0, 2500.0, 0.0))
 
-bottling_machine = node(nodeNet='production_plant', 
+bottling_machine = node(nodeId = '0003',
+                      nodeNet='production_plant', 
                       nodeType='ProductionMachine', 
                       nodeName='Tomato bottler', 
                       geo_position=(41.413896,15.056329), 
                       plant_position = (1000.0, 2500.0, 0.0))
 
-outboundAreaNode = node(nodeNet='warehouse', 
+outboundAreaNode = node(nodeId = '0004',
+                        nodeNet='warehouse', 
                       nodeType='DeliveryArea', 
                       nodeName='Shipping area', 
                       geo_position=(41.413896,15.056329), 

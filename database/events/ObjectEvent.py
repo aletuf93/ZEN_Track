@@ -6,6 +6,7 @@ import numpy as np
 #import dependences
 from database.entities.physicalGood_class import physicalGood_class
 from database.events.Event import event 
+from database.inventory.inventory import addInventory, deleteInventory
 import database.mongo_loginManager as mdb
 
 # %% class objectEvent model
@@ -107,8 +108,8 @@ def defineObjectEvent(physicalGoodDict,
 
 def ADDobjectEvent(physicalGoodDict,
                    nodeDict,
-                   quantity=np.nan,
-                   quantity_udm=None,
+                   quantity,
+                   quantity_udm,
                    disposition=None,
                    bizTransactionList = None,
                    bizStep=None,
@@ -133,6 +134,8 @@ def ADDobjectEvent(physicalGoodDict,
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
     result = db['ObjectEvent'].insert_one(document)
+    
+    result_inventory = addInventory(document, nodeDict, quantity, quantity_udm, db)
     
     return result
 
@@ -166,14 +169,16 @@ def OBSERVEobjectEvent(physicalGoodDict,
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
     result = db['ObjectEvent'].insert_one(document)
     
+    
+    
     return result
 
 
 # %%
 def DELETEobjectEvent(physicalGoodDict,
                    nodeDict,
-                   quantity=np.nan,
-                   quantity_udm=None,
+                   quantity,
+                   quantity_udm,
                    disposition=None,
                    bizTransactionList = None,
                    bizStep=None,
@@ -198,5 +203,8 @@ def DELETEobjectEvent(physicalGoodDict,
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
     result = db['ObjectEvent'].insert_one(document)
+    
+    result_inventory = deleteInventory(document, nodeDict, quantity, quantity_udm, db)
+    
     
     return result

@@ -49,15 +49,16 @@ nodeTypeDict = {'warehouse':warehouseList,
 # %% define the class node
 class node: 
     
-    
+    nodeId = None # unique identifies of the node
     nodeNet = None #identifies the network type of the node from the ones in class nodeNetwork
     nodeType = None #identifies the node type of the node from the lists in nodeTypeDict 
     nodeName = None #identifies a name for the node
     geo_position = None #identifies a position for the node using tuple of coordinates (latitude, longitude)
     plant_position = None #identifies a position for the node using tuple of coordinates (latitude, longitude)
     
-    def __init__(self, nodeNet, nodeType, nodeName, geo_position=(np.nan,np.nan), plant_position = (np.nan, np.nan, np.nan)):
+    def __init__(self, nodeId, nodeNet, nodeType, nodeName, geo_position=(np.nan,np.nan), plant_position = (np.nan, np.nan, np.nan)):
         
+        self.nodeId = nodeId
         #check a consistent environment
         if nodeNet in nodeNetwork.__members__:
             self.nodeNet=nodeNet
