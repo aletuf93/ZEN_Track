@@ -37,7 +37,7 @@ def deleteInventory(document, nodeDict, quantity, quantity_udm, db):
         find = db['Inventory'].find_one(query_inventory)
         #print(find)
         if find == None: # if not found
-            query_inventory['quantity'] = quantity
+            query_inventory['quantity'] = -quantity
             query_inventory['quantity_udm'] = quantity_udm
             
             #add all the node information
@@ -48,6 +48,6 @@ def deleteInventory(document, nodeDict, quantity, quantity_udm, db):
             result = db['Inventory'].insert_one(query_inventory)
         else:
             result = db['Inventory'].update_one({'_id':find['_id']},
-                                            {'$inc': { 'quantity': quantity }} ,
+                                            {'$inc': { 'quantity': -quantity }} ,
                                             upsert=True)
     return result
