@@ -33,3 +33,5 @@ class physicalGood_class():
         self.item_width = item_width
         self.item_volume = item_volume
         self.item_manufacturer = item_manufacturer
+        
+        
