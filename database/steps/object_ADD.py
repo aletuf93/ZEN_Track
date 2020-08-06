@@ -9,7 +9,7 @@ def encoding(physicalGoodDict,
                    nodeDict,
                    quantity,
                    quantity_udm,
-                   disposition=None,
+                   disposition='encoded',
                    bizTransactionList = None,
                    sourceDestList=[],
                    ilmd=None,
@@ -21,7 +21,7 @@ def encoding(physicalGoodDict,
     with an object at this step in the process.
     OBJECT - ADD
     '''
-    bizStep='decommissioning'
+    bizStep='encoding'
     if disposition in encoding_disp:
         result = ADDobjectEvent(physicalGoodDict,
                    nodeDict,

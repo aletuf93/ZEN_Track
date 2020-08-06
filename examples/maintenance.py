@@ -1,9 +1,8 @@
 #import packages
 
-
-
 if  __name__ == "__main__":
     import sys; sys.path.insert(0, '..') #add the above level with the package
+
 #import dependences
 from database.entities.physicalGood import physicalGood
 from database.entities.node import node

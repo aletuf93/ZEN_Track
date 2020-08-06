@@ -28,8 +28,11 @@ class TransformationEvent(event):
         #resource
     xformID = odm.StringField() # (URN identifier) An identifier for the transformation that compiles with the requirement of uniform resource name (URN) syntax
         #quantity
-    quantity = odm.FloatField() #The quantity of objects with the class (i.e. specific packaging unit) described by this event
-    quantity_udm = odm.StringField() #Unit of measure of the quantity
+    quantity_input = odm.FloatField() #The quantity of objects with the class (i.e. specific packaging unit) described by this event
+    quantity__input_udm = odm.StringField() #Unit of measure of the quantity
+    
+    quantity_output = odm.FloatField() #The quantity of objects with the class (i.e. specific packaging unit) described by this event
+    quantity__output_udm = odm.StringField() #Unit of measure of the quantity
     
     #where
     readPoint = odm.StringField() #The specific location at which EPCIS event took place
@@ -51,8 +54,10 @@ def defineTranformationEvent(physicalGoodDict_input,
                              physicalGoodDict_output,
                              epcClass=None,
                              xformID=None,
-                             quantity=np.nan,
-                             quantity_udm=None,
+                             quantity_in=np.nan,
+                             quantity_in_udm=None,
+                             quantity_out=np.nan,
+                             quantity_out_udm=None,
                              nodeDict=None,
                              disposition=None,
                              bizStep=None,
@@ -86,8 +91,10 @@ def defineTranformationEvent(physicalGoodDict_input,
     document['outputEpc'] = physicalGoodDict_output['epc']
     document['epcClass'] = epcClass 
     document['xformID'] = xformID
-    document['quantity'] = quantity
-    document['quantity_udm'] = quantity_udm
+    document['quantity_in'] = quantity_in
+    document['quantity_in_udm'] = quantity_in_udm
+    document['quantity_out'] = quantity_out
+    document['quantity_out_udm'] = quantity_out_udm
     
     
     
@@ -119,8 +126,10 @@ def ADDtransformationEvent(physicalGoodDict_input,
                              physicalGoodDict_output,
                              epcClass=None,
                              xformID=None,
-                             quantity=np.nan,
-                             quantity_udm=None,
+                             quantity_in=1,
+                             quantity_in_udm=None,
+                             quantity_out=1,
+                             quantity_out_udm=None,
                              nodeDict=None,
                              disposition=None,
                              bizStep=None,
@@ -132,8 +141,10 @@ def ADDtransformationEvent(physicalGoodDict_input,
                              physicalGoodDict_output=physicalGoodDict_output,
                              epcClass=epcClass,
                              xformID=xformID,
-                             quantity=quantity,
-                             quantity_udm=quantity_udm,
+                             quantity_in=quantity_in,
+                             quantity_in_udm=quantity_in_udm,
+                             quantity_out=quantity_out,
+                             quantity_out_udm=quantity_out_udm,
                              nodeDict=nodeDict,
                              disposition=disposition,
                              bizStep=bizStep,
@@ -154,8 +165,10 @@ def OBSERVEtransformationEvent(physicalGoodDict_input,
                              physicalGoodDict_output,
                              epcClass=None,
                              xformID=None,
-                             quantity=np.nan,
-                             quantity_udm=None,
+                             quantity_in=1,
+                             quantity_in_udm=None,
+                             quantity_out=1,
+                             quantity_out_udm=None,
                              nodeDict=None,
                              disposition=None,
                              bizStep=None,
@@ -167,8 +180,10 @@ def OBSERVEtransformationEvent(physicalGoodDict_input,
                              physicalGoodDict_output=physicalGoodDict_output,
                              epcClass=epcClass,
                              xformID=xformID,
-                             quantity=quantity,
-                             quantity_udm=quantity_udm,
+                             quantity_in=quantity_in,
+                             quantity_in_udm=quantity_in_udm,
+                             quantity_out=quantity_out,
+                             quantity_out_udm=quantity_out_udm,
                              nodeDict=nodeDict,
                              disposition=disposition,
                              bizStep=bizStep,
@@ -189,8 +204,10 @@ def DELETEtransformationEvent(physicalGoodDict_input,
                              physicalGoodDict_output,
                              epcClass=None,
                              xformID=None,
-                             quantity=np.nan,
-                             quantity_udm=None,
+                             quantity_in=1,
+                             quantity_in_udm=None,
+                             quantity_out=1,
+                             quantity_out_udm=None,
                              nodeDict=None,
                              disposition=None,
                              bizStep=None,
@@ -202,8 +219,10 @@ def DELETEtransformationEvent(physicalGoodDict_input,
                              physicalGoodDict_output=physicalGoodDict_output,
                              epcClass=epcClass,
                              xformID=xformID,
-                             quantity=quantity,
-                             quantity_udm=quantity_udm,
+                             quantity_in=quantity_in,
+                             quantity_in_udm=quantity_in_udm,
+                             quantity_out=quantity_out,
+                             quantity_out_udm=quantity_out_udm,
                              nodeDict=nodeDict,
                              disposition=disposition,
                              bizStep=bizStep,
