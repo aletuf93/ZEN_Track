@@ -8,7 +8,7 @@ def consigning(physicalGoodDict,
                    DestnodeDict,
                    quantity,
                    quantity_udm,
-                   parentID=[],
+                   parentID=None,
                    transactionType='bol',
                    extensions={},
                    dbname="EPCIS_DB"):

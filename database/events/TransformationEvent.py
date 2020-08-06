@@ -7,6 +7,7 @@ import datetime
 
 #import dependences
 from database.events.Event import event 
+from database.entities.physicalGood_class import physicalGood_class
 import database.mongo_loginManager as mdb
 
 
@@ -114,9 +115,31 @@ def defineTranformationEvent(physicalGoodDict_input,
     document['bizStep'] = bizStep
     document['bizTransactionList'] = bizTransactionList
     
+    #add all the other data
+    for key in physicalGoodDict_input:
+        if key not in document.keys():
+            if isinstance(physicalGoodDict_input[key],physicalGood_class):
+                document[f"input_{key}"] = physicalGoodDict_input[key].__dict__
+            else:
+                document[f"input_{key}"] = physicalGoodDict_input[key]
     
+    for key in physicalGoodDict_output:
+        if key not in document.keys():
+            if isinstance(physicalGoodDict_output[key],physicalGood_class):
+                document[f"output_{key}"] = physicalGoodDict_output[key].__dict__
+            else:
+                document[f"output_{key}"] = physicalGoodDict_output[key]
     
-    document['extensions'] = extensions
+    for key in extensions:
+        if key not in document.keys():
+            document[key] = extensions[key]
+    
+    #unpack values containing dictionaries
+    for key in list(document.keys()):
+        if isinstance(document[key],dict):
+            for key_child in document[key]:
+                document[f"{key}_{key_child}"] = document[key][key_child]
+            document.pop(key)
     
     return document
 

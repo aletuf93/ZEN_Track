@@ -3,10 +3,10 @@ from database.events.AggregationEvent import ADDaggregationEvent
 # %%
 def assembling(physicalGoodDict_parent,
                     physicalGoodDict_child,
-                    nodeDict=[],
+                    nodeDict=None,
                     disposition=None,
                     bizTransactionList = None,
-                    sourceDestList=[],
+                    sourceDestList=None,
                     extensions={},
                     dbname="EPCIS_DB"):
     '''
@@ -32,10 +32,10 @@ def assembling(physicalGoodDict_parent,
 # %%
 def packing(physicalGoodDict_parent,
                     physicalGoodDict_child,
-                    nodeDict=[],
+                    nodeDict=None,
                     disposition=None,
                     bizTransactionList = None,
-                    sourceDestList=[],
+                    sourceDestList=None,
                     extensions={},
                     dbname="EPCIS_DB"):
     '''
@@ -59,10 +59,10 @@ def packing(physicalGoodDict_parent,
 # %%
 def repackaging(physicalGoodDict_parent,
                     physicalGoodDict_child,
-                    nodeDict=[],
+                    nodeDict=None,
                     disposition=None,
                     bizTransactionList = None,
-                    sourceDestList=[],
+                    sourceDestList=None,
                     extensions={},
                     dbname="EPCIS_DB"):
     '''

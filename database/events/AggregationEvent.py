@@ -4,6 +4,7 @@ import mongoengine as odm
 import datetime
 
 #import dependences
+from database.entities.physicalGood_class import physicalGood_class
 from database.events.Event import event 
 import database.mongo_loginManager as mdb
 
@@ -39,11 +40,11 @@ class AggregationEvent(event):
 # %%    
 def defineAggregationEvent(physicalGoodDict_parent,
                            physicalGoodDict_child,
-                           nodeDict=[],
+                           nodeDict=None,
                            disposition=None,
                            bizTransactionList = None,
                            bizStep=None,
-                           sourceDestList=[],
+                           sourceDestList=None,
                            extensions={}):
     
     document={}
@@ -79,16 +80,42 @@ def defineAggregationEvent(physicalGoodDict_parent,
     document['sourceDestList'] = sourceDestList
     document['extensions'] = extensions
     
+    #add all the other data
+    for key in physicalGoodDict_parent:
+        if key not in document.keys():
+            if isinstance(physicalGoodDict_parent[key],physicalGood_class):
+                document[f"parent_{key}"] = physicalGoodDict_parent[key].__dict__
+            else:
+                document[f"parent_{key}"] = physicalGoodDict_parent[key]
+    
+    for key in physicalGoodDict_child:
+        if key not in document.keys():
+            if isinstance(physicalGoodDict_child[key],physicalGood_class):
+                document[f"child_{key}"] = physicalGoodDict_child[key].__dict__
+            else:
+                document[f"child_{key}"] = physicalGoodDict_child[key]
+    
+    for key in extensions:
+        if key not in document.keys():
+            document[key] = extensions[key]
+    
+    #unpack values containing dictionaries
+    for key in list(document.keys()):
+        if isinstance(document[key],dict):
+            for key_child in document[key]:
+                document[f"{key}_{key_child}"] = document[key][key_child]
+            document.pop(key)
+    
     return document
 
 # %%
 def ADDaggregationEvent(physicalGoodDict_parent,
                     physicalGoodDict_child,
-                    nodeDict=[],
+                    nodeDict=None,
                     disposition=None,
                     bizTransactionList = None,
                     bizStep=None,
-                    sourceDestList=[],
+                    sourceDestList=None,
                     extensions={},
                     dbname="EPCIS_DB"):
     
@@ -112,11 +139,11 @@ def ADDaggregationEvent(physicalGoodDict_parent,
 # %%
 def OBSERVEaggregationEvent(physicalGoodDict_parent,
                     physicalGoodDict_child,
-                    nodeDict=[],
+                    nodeDict=None,
                     disposition=None,
                     bizTransactionList = None,
                     bizStep=None,
-                    sourceDestList=[],
+                    sourceDestList=None,
                     extensions={},
                     dbname="EPCIS_DB"):
     
@@ -140,11 +167,11 @@ def OBSERVEaggregationEvent(physicalGoodDict_parent,
 # %%
 def DELETEaggregationEvent(physicalGoodDict_parent,
                     physicalGoodDict_child,
-                    nodeDict=[],
+                    nodeDict=None,
                     disposition=None,
                     bizTransactionList = None,
                     bizStep=None,
-                    sourceDestList=[],
+                    sourceDestList=None,
                     extensions={},
                     dbname="EPCIS_DB"):
     

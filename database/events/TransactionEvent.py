@@ -5,6 +5,7 @@ import mongoengine as odm
 import datetime
 
 #import dependences
+from database.entities.physicalGood_class import physicalGood_class
 from database.events.Event import event 
 import database.mongo_loginManager as mdb
 
@@ -47,7 +48,7 @@ def defineTransactionEvent(physicalGoodDict,
                    bizTransactionList,
                    DestnodeDict,
                    bizStep=None,
-                   parentID=[],
+                   parentID=None,
                    disposition=None,
                    extensions={}):
     
@@ -91,7 +92,24 @@ def defineTransactionEvent(physicalGoodDict,
     document['Dest_plant_y'] = DestnodeDict['plant_position'][1]
     document['Dest_plant_z'] = DestnodeDict['plant_position'][2]
     
-    document['extensions'] = extensions
+    #add all the other data
+    for key in physicalGoodDict:
+        if key not in document.keys():
+            if isinstance(physicalGoodDict[key],physicalGood_class):
+                document[f"{key}"] = physicalGoodDict[key].__dict__
+            else:
+                document[f"{key}"] = physicalGoodDict[key]
+    
+    for key in extensions:
+        if key not in document.keys():
+            document[key] = extensions[key]
+    
+    #unpack values containing dictionaries
+    for key in list(document.keys()):
+        if isinstance(document[key],dict):
+            for key_child in document[key]:
+                document[f"{key}_{key_child}"] = document[key][key_child]
+            document.pop(key)
     
     return document
 # %%
@@ -103,7 +121,7 @@ def ADDtransactionEvent(physicalGoodDict,
                    quantity,
                    quantity_udm,
                    bizStep=None,
-                   parentID=[],
+                   parentID=None,
                    disposition=None,
                    extensions={},
                    dbname="EPCIS_DB"):
@@ -135,7 +153,7 @@ def OBSERVEtransactionEvent(physicalGoodDict,
                    quantity,
                    quantity_udm,
                    bizStep=None,
-                   parentID=[],
+                   parentID=None,
                    disposition=None,
                    extensions={},
                    dbname="EPCIS_DB"):
@@ -167,7 +185,7 @@ def DELETEtransactionEvent(physicalGoodDict,
                    quantity,
                    quantity_udm,
                    bizStep=None,
-                   parentID=[],
+                   parentID=None,
                    disposition=None,
                    extensions={},
                    dbname="EPCIS_DB"):

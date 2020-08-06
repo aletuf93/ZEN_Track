@@ -4,6 +4,7 @@ import datetime
 import numpy as np
 
 #import dependences
+from database.entities.physicalGood_class import physicalGood_class
 from database.events.Event import event 
 import database.mongo_loginManager as mdb
 
@@ -44,7 +45,7 @@ def defineObjectEvent(physicalGoodDict,
                    disposition=None,
                    bizTransactionList = None,
                    bizStep=None,
-                   sourceDestList=[],
+                   sourceDestList=None,
                    ilmd=None,
                    extensions={}):
     
@@ -78,7 +79,25 @@ def defineObjectEvent(physicalGoodDict,
     
     document['sourceDestList'] = sourceDestList
     document['ilmd'] = ilmd
-    document['extensions'] = extensions
+    
+    #add all the other data
+    for key in physicalGoodDict:
+        if key not in document.keys():
+            if isinstance(physicalGoodDict[key],physicalGood_class):
+                document[f"{key}"] = physicalGoodDict[key].__dict__
+            else:
+                document[f"{key}"] = physicalGoodDict[key]
+    
+    for key in extensions:
+        if key not in document.keys():
+            document[key] = extensions[key]
+    
+    #unpack values containing dictionaries
+    for key in list(document.keys()):
+        if isinstance(document[key],dict):
+            for key_child in document[key]:
+                document[f"{key}_{key_child}"] = document[key][key_child]
+            document.pop(key)
     
     return document
     
@@ -93,7 +112,7 @@ def ADDobjectEvent(physicalGoodDict,
                    disposition=None,
                    bizTransactionList = None,
                    bizStep=None,
-                   sourceDestList=[],
+                   sourceDestList=None,
                    ilmd=None,
                    extensions={},
                    dbname="EPCIS_DB"):
@@ -125,7 +144,7 @@ def OBSERVEobjectEvent(physicalGoodDict,
                    disposition=None,
                    bizTransactionList = None,
                    bizStep=None,
-                   sourceDestList=[],
+                   sourceDestList=None,
                    ilmd=None,
                    extensions={},
                    dbname="EPCIS_DB"):
@@ -158,7 +177,7 @@ def DELETEobjectEvent(physicalGoodDict,
                    disposition=None,
                    bizTransactionList = None,
                    bizStep=None,
-                   sourceDestList=[],
+                   sourceDestList=None,
                    ilmd=None,
                    extensions={},
                    dbname="EPCIS_DB"):

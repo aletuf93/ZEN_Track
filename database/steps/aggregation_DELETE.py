@@ -4,10 +4,10 @@ from database.events.TransactionEvent import DELETEaggregationEvent
 # %%
 def disassembling(physicalGoodDict_parent,
                     physicalGoodDict_child,
-                    nodeDict=[],
+                    nodeDict=None,
                     disposition=None,
                     bizTransactionList = None,
-                    sourceDestList=[],
+                    sourceDestList=None,
                     extensions={},
                     dbname="EPCIS_DB"):
     '''
@@ -18,7 +18,7 @@ def disassembling(physicalGoodDict_parent,
     bizStep='disassembling'
     result = DELETEaggregationEvent(physicalGoodDict_parent,
                     physicalGoodDict_child,
-                    nodeDict=[],
+                    nodeDict=None,
                     disposition=disposition,
                     bizTransactionList = bizTransactionList,
                     bizStep=bizStep,
@@ -30,10 +30,10 @@ def disassembling(physicalGoodDict_parent,
 # %%
 def unpacking(physicalGoodDict_parent,
                     physicalGoodDict_child,
-                    nodeDict=[],
+                    nodeDict=None,
                     disposition=None,
                     bizTransactionList = None,
-                    sourceDestList=[],
+                    sourceDestList=None,
                     extensions={},
                     dbname="EPCIS_DB"):
     '''
@@ -46,7 +46,7 @@ def unpacking(physicalGoodDict_parent,
     bizStep='unpacking'
     result = DELETEaggregationEvent(physicalGoodDict_parent,
                     physicalGoodDict_child,
-                    nodeDict=[],
+                    nodeDict=None,
                     disposition=disposition,
                     bizTransactionList = bizTransactionList,
                     bizStep=bizStep,

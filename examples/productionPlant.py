@@ -1,8 +1,10 @@
+import numpy as np
 if  __name__ == "__main__":
     import sys; sys.path.insert(0, '..') #add the above level with the package
 
 #import dependences
 from database.entities.physicalGood import physicalGood
+from database.entities.physicalGood_class import physicalGood_class
 from database.entities.node import node
 
 from database.steps.object_ADD import encoding
@@ -10,7 +12,7 @@ from database.steps.object_OBSERVE import staging_outbound
 from database.steps.aggregation_ADD import packing
 from database.steps.transformation_ADD import creating_class_instance, commissioning
 
-# %%
+# %% production cycle
 #-tomato
 #-basil
 #-salt
@@ -20,13 +22,59 @@ from database.steps.transformation_ADD import creating_class_instance, commissio
 ##--creating class instance
 ##--pack in 6 bottles
 
+# %% define product master file
+tomato_sauce_bottle_class = physicalGood_class(item_code = "000000001s2231",
+                                        item_description = "bottle of tomato sauce",
+                                        item_weight = 1.2,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "TomatoCompany")
+
+tomato_sauce_6bottle_class = physicalGood_class(item_code = "000000001s2231s2",
+                                        item_description = "Pack 6 bottle of tomato sauce",
+                                        item_weight = 7.2,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "TomatoCompany")
+
+tomato = physicalGood_class(            item_code = "0001",
+                                        item_description = "tomato",
+                                        item_weight = None,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "supplier")
+
+basil = physicalGood_class(             item_code = "0002",
+                                        item_description = "basil",
+                                        item_weight = None,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "supplier")
+
+salt = physicalGood_class(              item_code = "0002",
+                                        item_description = "salt",
+                                        item_weight = None,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "supplier")
+
 # %% define entities
-tomato_supplier= physicalGood("tomato")
-basil_supplier= physicalGood("basil")
-salt_supplier= physicalGood("salt")
-tomato_sauce= physicalGood("salt")
-tomato_bottle= physicalGood("tomato_product")
-tomato_pack_6_bottles= physicalGood("tomato_pack_6_bottles")
+tomato_supplier= physicalGood("tomato", tomato)
+basil_supplier= physicalGood("basil",basil)
+salt_supplier= physicalGood("salt", salt)
+tomato_sauce= physicalGood("tomato_sauce")
+tomato_bottle= physicalGood("tomato_product", tomato_sauce_bottle_class)
+tomato_pack_6_bottles= physicalGood("tomato_pack_6_bottles",tomato_sauce_6bottle_class)
 # %% define nodes
 
 mixing_machine = node(nodeNet='production_plant', 
