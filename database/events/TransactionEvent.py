@@ -125,6 +125,7 @@ def ADDtransactionEvent(physicalGoodDict,
                    disposition=None,
                    extensions={},
                    dbname="EPCIS_DB"):
+    results = {}
     
     document = defineTransactionEvent(physicalGoodDict= physicalGoodDict,
                    nodeDict=nodeDict,
@@ -141,9 +142,13 @@ def ADDtransactionEvent(physicalGoodDict,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['TransactionEvent'].insert_one(document)
+    results['insert'] = db['TransactionEvent'].insert_one(document)
     
-    return result
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['epc']}, {'$push': {'traceability': document}})
+    
+    
+    return results
 
 # %%
 def OBSERVEtransactionEvent(physicalGoodDict,
@@ -158,6 +163,7 @@ def OBSERVEtransactionEvent(physicalGoodDict,
                    extensions={},
                    dbname="EPCIS_DB"):
     
+    results = {}
     document = defineTransactionEvent(physicalGoodDict= physicalGoodDict,
                    nodeDict=nodeDict,
                    bizTransactionList=bizTransactionList,
@@ -173,9 +179,12 @@ def OBSERVEtransactionEvent(physicalGoodDict,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['TransactionEvent'].insert_one(document)
+    results['insert'] = db['TransactionEvent'].insert_one(document)
     
-    return result
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['epc']}, {'$push': {'traceability': document}})
+    
+    return results
 
 # %%
 def DELETEtransactionEvent(physicalGoodDict,
@@ -189,6 +198,8 @@ def DELETEtransactionEvent(physicalGoodDict,
                    disposition=None,
                    extensions={},
                    dbname="EPCIS_DB"):
+    
+    results = {}
     
     document = defineTransactionEvent(physicalGoodDict= physicalGoodDict,
                    nodeDict=nodeDict,
@@ -205,7 +216,10 @@ def DELETEtransactionEvent(physicalGoodDict,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['TransactionEvent'].insert_one(document)
+    results['insert'] = db['TransactionEvent'].insert_one(document)
     
-    return result
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['epc']}, {'$push': {'traceability': document}})
+    
+    return results
 

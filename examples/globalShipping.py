@@ -36,19 +36,22 @@ for i in range(0,num_containers):
     
 # %% define control points
 
-loadingPort = node(nodeNet='distribution_network', 
+loadingPort = node(   nodeId='H_port',
+                      nodeNet='distribution_network', 
                       nodeType='DockingArea', 
                       nodeName='Export terminal Asia', 
                       geo_position=(51.9496,4.1453), 
                       plant_position = (1000.0, 2500.0, 0.0))
 
-dischargingPort = node(nodeNet='distribution_network', 
+dischargingPort = node(nodeId='HK_port',
+                       nodeNet='distribution_network', 
                       nodeType='DockingArea', 
                       nodeName='Export terminal Europe', 
                       geo_position=(22.3193,114.1694), 
                       plant_position = (1000.0, 2500.0, 0.0))
 
-VesselNode = node(nodeNet='distribution_network', 
+VesselNode = node(    nodeId='VESSEL_0003',
+                      nodeNet='distribution_network', 
                       nodeType='Vessel', 
                       nodeName='ContainerCargo', 
                       )

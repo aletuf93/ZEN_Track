@@ -46,11 +46,11 @@ class physicalGood():
                 
                 
                 
-            print(document)
+            
                 
                     
             document['traceability'] = []
-            print(document)
+            
             
             result = db['PhysicalGood'].insert_one(document)
         

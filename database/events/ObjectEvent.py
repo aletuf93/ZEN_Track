@@ -100,6 +100,8 @@ def defineObjectEvent(physicalGoodDict,
                 document[f"{key}_{key_child}"] = document[key][key_child]
             document.pop(key)
     
+    
+    
     return document
     
 
@@ -117,7 +119,7 @@ def ADDobjectEvent(physicalGoodDict,
                    ilmd=None,
                    extensions={},
                    dbname="EPCIS_DB"):
-    
+    results = {}
     document = defineObjectEvent(physicalGoodDict=physicalGoodDict,
                    nodeDict=nodeDict,
                    quantity=quantity,
@@ -133,11 +135,14 @@ def ADDobjectEvent(physicalGoodDict,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['ObjectEvent'].insert_one(document)
+    results['insert'] = db['ObjectEvent'].insert_one(document)
     
-    result_inventory = addInventory(document, nodeDict, quantity, quantity_udm, db)
+    results['inventory'] = addInventory(document, nodeDict, quantity, quantity_udm, db)
     
-    return result
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['epc']}, {'$push': {'traceability': document}})
+    
+    return results
 
 # %%
 def OBSERVEobjectEvent(physicalGoodDict,
@@ -152,6 +157,7 @@ def OBSERVEobjectEvent(physicalGoodDict,
                    extensions={},
                    dbname="EPCIS_DB"):
     
+    results = {}
     document = defineObjectEvent(physicalGoodDict=physicalGoodDict,
                    nodeDict=nodeDict,
                    quantity=quantity,
@@ -167,11 +173,14 @@ def OBSERVEobjectEvent(physicalGoodDict,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['ObjectEvent'].insert_one(document)
+    results['insert'] = db['ObjectEvent'].insert_one(document)
+    
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['epc']}, {'$push': {'traceability': document}})
     
     
     
-    return result
+    return results
 
 
 # %%
@@ -186,6 +195,7 @@ def DELETEobjectEvent(physicalGoodDict,
                    ilmd=None,
                    extensions={},
                    dbname="EPCIS_DB"):
+    results={}
     
     document = defineObjectEvent(physicalGoodDict=physicalGoodDict,
                    nodeDict=nodeDict,
@@ -202,9 +212,13 @@ def DELETEobjectEvent(physicalGoodDict,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['ObjectEvent'].insert_one(document)
+    results['insert'] = db['ObjectEvent'].insert_one(document)
     
-    result_inventory = deleteInventory(document, nodeDict, quantity, quantity_udm, db)
+    #update the inventory function
+    results['inventory'] = deleteInventory(document, nodeDict, quantity, quantity_udm, db)
+    
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['epc']}, {'$push': {'traceability': document}})
     
     
-    return result
+    return results

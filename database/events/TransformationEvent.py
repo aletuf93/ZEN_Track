@@ -67,19 +67,6 @@ def defineTranformationEvent(physicalGoodDict_input,
     
     document={}
     
-    '''
-    #why
-    disposition = odm.StringField() #The business state of an object such as sold, expired, recalled, in transit
-    bizStep = odm.StringField() #The business step of which EPCIS event was a part
-    bizTransactionList = odm.ListField() #A list of business transaction that defines the context of the event {bizTransactionType, bizTransaction}
-    
-    
-    sourceDestList = odm.ListField() #A list of business transfer that defines the additional context of the EPCIS event {SourceDestType, SourceDest}
-    ilmd = odm.StringField() #A specific instance of a physical or digital object
-    extensions = odm.ListField() #This identifies the addition of new data members, list of additional attributes
-
-    '''
-    
     
     #set object parameters
     document['eventTime'] = datetime.datetime.utcnow()
@@ -159,6 +146,7 @@ def ADDtransformationEvent(physicalGoodDict_input,
                              bizTransactionList=None,
                              extensions={},
                              dbname="EPCIS_DB"):
+    results = {}
     
     document = defineTranformationEvent(physicalGoodDict_input=physicalGoodDict_input,
                              physicalGoodDict_output=physicalGoodDict_output,
@@ -178,9 +166,13 @@ def ADDtransformationEvent(physicalGoodDict_input,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['TransformationEvent'].insert_one(document)
+    results['insert'] = db['TransformationEvent'].insert_one(document)
     
-    return result
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['inputEpc']}, {'$push': {'traceability': document}})
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['outputEpc']}, {'$push': {'traceability': document}})
+    
+    return results
 
 # %%
 
@@ -198,6 +190,7 @@ def OBSERVEtransformationEvent(physicalGoodDict_input,
                              bizTransactionList=None,
                              extensions={},
                              dbname="EPCIS_DB"):
+    results = {}
     
     document = defineTranformationEvent(physicalGoodDict_input=physicalGoodDict_input,
                              physicalGoodDict_output=physicalGoodDict_output,
@@ -217,9 +210,13 @@ def OBSERVEtransformationEvent(physicalGoodDict_input,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['TransformationEvent'].insert_one(document)
+    results['insert'] = db['TransformationEvent'].insert_one(document)
     
-    return result
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['inputEpc']}, {'$push': {'traceability': document}})
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['outputEpc']}, {'$push': {'traceability': document}})
+    
+    return results
 
 # %%
 
@@ -237,6 +234,7 @@ def DELETEtransformationEvent(physicalGoodDict_input,
                              bizTransactionList=None,
                              extensions={},
                              dbname="EPCIS_DB"):
+    results = {}
     
     document = defineTranformationEvent(physicalGoodDict_input=physicalGoodDict_input,
                              physicalGoodDict_output=physicalGoodDict_output,
@@ -256,7 +254,12 @@ def DELETEtransformationEvent(physicalGoodDict_input,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['TransformationEvent'].insert_one(document)
+    results['insert'] = db['TransformationEvent'].insert_one(document)
     
-    return result
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['inputEpc']}, {'$push': {'traceability': document}})
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['outputEpc']}, {'$push': {'traceability': document}})
+    
+    
+    return results
 

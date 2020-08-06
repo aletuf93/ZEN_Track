@@ -118,7 +118,7 @@ def ADDaggregationEvent(physicalGoodDict_parent,
                     sourceDestList=None,
                     extensions={},
                     dbname="EPCIS_DB"):
-    
+    results={}
     document = defineAggregationEvent(physicalGoodDict_parent,
                     physicalGoodDict_child,
                     nodeDict=nodeDict,
@@ -132,9 +132,14 @@ def ADDaggregationEvent(physicalGoodDict_parent,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['AggregationEvent'].insert_one(document)
+    results['insert'] = db['AggregationEvent'].insert_one(document)
     
-    return result
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['parent_epc']}, {'$push': {'traceability': document}})
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['child_epc']}, {'$push': {'traceability': document}})
+    
+    
+    return results
 
 # %%
 def OBSERVEaggregationEvent(physicalGoodDict_parent,
@@ -146,6 +151,7 @@ def OBSERVEaggregationEvent(physicalGoodDict_parent,
                     sourceDestList=None,
                     extensions={},
                     dbname="EPCIS_DB"):
+    results={}
     
     document = defineAggregationEvent(physicalGoodDict_parent,
                     physicalGoodDict_child,
@@ -160,9 +166,15 @@ def OBSERVEaggregationEvent(physicalGoodDict_parent,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['AggregationEvent'].insert_one(document)
+    results['insert'] = db['AggregationEvent'].insert_one(document)
     
-    return result
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['parent_epc']}, {'$push': {'traceability': document}})
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['child_epc']}, {'$push': {'traceability': document}})
+    
+    
+    
+    return results
 
 # %%
 def DELETEaggregationEvent(physicalGoodDict_parent,
@@ -174,7 +186,7 @@ def DELETEaggregationEvent(physicalGoodDict_parent,
                     sourceDestList=None,
                     extensions={},
                     dbname="EPCIS_DB"):
-    
+    results={}
     document = defineAggregationEvent(physicalGoodDict_parent,
                     physicalGoodDict_child,
                     nodeDict=nodeDict,
@@ -188,6 +200,12 @@ def DELETEaggregationEvent(physicalGoodDict_parent,
     
     #insert record
     db, dbname = mdb.setConnectionPymongo(dbname, not_enc=True)
-    result = db['AggregationEvent'].insert_one(document)
+    results['insert'] = db['AggregationEvent'].insert_one(document)
     
-    return result
+    # update the traceability
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['parent_epc']}, {'$push': {'traceability': document}})
+    results['track'] = db['PhysicalGood'].update_one({'_id': document['child_epc']}, {'$push': {'traceability': document}})
+    
+    
+    
+    return results

@@ -13,7 +13,8 @@ from database.steps.object_ADD import installing
 # %% define control points
 maintenanceReport="REP_000001"
 operatorId="MAIN_OPER_005"
-milling_machine = node(nodeNet='production_plant', 
+milling_machine = node(nodeId='MACH_0302',
+                       nodeNet='production_plant', 
                       nodeType='ProductionMachine', 
                       nodeName='Pallet rack', 
                       geo_position=(41.413896,15.056329), 
