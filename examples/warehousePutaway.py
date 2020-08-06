@@ -1,6 +1,7 @@
 #import packages
 import pandas as pd
 import numpy as np
+import random
 
 
 if  __name__ == "__main__":
@@ -19,6 +20,15 @@ min_qty = 1
 max_qty = 100
 
 # %% generate sku master file
+tomato_sauce_bottle_class = physicalGood_class(item_code = "000000001s2231",
+                                        item_description = "bottle of tomato sauce",
+                                        item_weight = 1.2,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "TomatoCompany")
+
 tomato_sauce_6bottle_class = physicalGood_class(item_code = "000000001s2231s2",
                                         item_description = "Pack 6 bottle of tomato sauce",
                                         item_weight = 7.2,
@@ -28,6 +38,40 @@ tomato_sauce_6bottle_class = physicalGood_class(item_code = "000000001s2231s2",
                                         item_volume = None,
                                         item_manufacturer = "TomatoCompany")
 
+tomato = physicalGood_class(            item_code = "0001",
+                                        item_description = "tomato",
+                                        item_weight = None,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "supplier")
+
+basil = physicalGood_class(             item_code = "0002",
+                                        item_description = "basil",
+                                        item_weight = None,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "supplier")
+
+salt = physicalGood_class(              item_code = "0002",
+                                        item_description = "salt",
+                                        item_weight = None,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "supplier")
+
+sku_master_file = {'tomato_sauce_bottle_class':tomato_sauce_bottle_class,
+                   'tomato_sauce_6bottle_class':tomato_sauce_6bottle_class,
+                   'tomato':tomato,
+                   'basil':basil,
+                   'salt':salt,
+             
+    }
 
 # %% generate inbound list
 
@@ -39,8 +83,10 @@ D_list = pd.DataFrame(columns=['epc','quantity'])
 
 for i in range(0,num_inbound_SKUs):
     
+    sku = random.choice(list(sku_master_file.keys()))
+    
 
-    EPCs= physicalGood(f"prod_{i}",tomato_sauce_6bottle_class)
+    EPCs= physicalGood(f"prod_{i}",sku_master_file[sku])
     temp = pd.DataFrame([EPCs],columns=['epc'])
     temp['quantity'] = np.random.uniform(min_qty,max_qty)
     D_list = D_list.append(temp)

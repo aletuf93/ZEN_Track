@@ -1,7 +1,8 @@
 
 
 def addInventory(document, nodeDict, quantity, quantity_udm, db):
-    #update inventory record
+    result = None
+    #update inventory record (add)
     if 'item_class_item_code' in document.keys():
         query_inventory = {'nodeId' : nodeDict['nodeId'],
                            'item_class_item_code' : document['item_class_item_code']}
@@ -28,7 +29,8 @@ def addInventory(document, nodeDict, quantity, quantity_udm, db):
 # %%
 
 def deleteInventory(document, nodeDict, quantity, quantity_udm, db):
-    #update inventory record
+    result = None
+    #update inventory record (remove)
     if 'item_class_item_code' in document.keys():
         query_inventory = {'nodeId' : nodeDict['nodeId'],
                            'item_class_item_code' : document['item_class_item_code']}

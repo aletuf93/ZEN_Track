@@ -1,12 +1,14 @@
 #import packages
 import pandas as pd
 import numpy as np
+import random
 
 
 if  __name__ == "__main__":
     import sys; sys.path.insert(0, '..') #add the above level with the package
 #import dependences
 from database.entities.physicalGood import physicalGood
+from database.entities.physicalGood_class import physicalGood_class
 from database.entities.node import node
 from database.steps.object_OBSERVE import staging_outbound, departing
 from database.steps.object_ADD import loading
@@ -20,7 +22,84 @@ from database.steps.aggregation_ADD import packing
 num_outbound_SKUs = 25
 min_qty = 1
 max_qty = 10
-# %% generate inbound list
+
+# %% generate sku master file
+tomato_sauce_bottle_class = physicalGood_class(item_code = "000000001s2231",
+                                        item_description = "bottle of tomato sauce",
+                                        item_weight = 1.2,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "TomatoCompany")
+
+tomato_sauce_6bottle_class = physicalGood_class(item_code = "000000001s2231s2",
+                                        item_description = "Pack 6 bottle of tomato sauce",
+                                        item_weight = 7.2,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "TomatoCompany")
+
+tomato = physicalGood_class(            item_code = "0001",
+                                        item_description = "tomato",
+                                        item_weight = None,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "supplier")
+
+basil = physicalGood_class(             item_code = "0002",
+                                        item_description = "basil",
+                                        item_weight = None,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "supplier")
+
+salt = physicalGood_class(              item_code = "0002",
+                                        item_description = "salt",
+                                        item_weight = None,
+                                        item_length = None,
+                                        item_height = None,
+                                        item_width = None,
+                                        item_volume = None,
+                                        item_manufacturer = "supplier")
+
+sku_master_file = {'tomato_sauce_bottle_class':tomato_sauce_bottle_class,
+                   'tomato_sauce_6bottle_class':tomato_sauce_6bottle_class,
+                   'tomato':tomato,
+                   'basil':basil,
+                   'salt':salt,
+             
+    }
+
+# %% define control points
+
+storageAreaNode = node(nodeId='wh_03',
+                       nodeNet='warehouse', 
+                      nodeType='StorageLocation', 
+                      nodeName='Pallet rack', 
+                      geo_position=(41.413896,15.056329), 
+                      plant_position = (1000.0, 2500.0, 0.0))
+
+outboundAreaNode = node(nodeId='wh_04',
+                        nodeNet='warehouse', 
+                      nodeType='DeliveryArea', 
+                      nodeName='Shipping area', 
+                      geo_position=(41.413896,15.056329), 
+                      plant_position = (1000.0, 2500.0, 0.0))
+
+TruckNode = node(nodeId='tr_road_01_FO0892341',
+                 nodeNet='distribution_network', 
+                      nodeType='Truck', 
+                      nodeName='MarioTruck_01', 
+                      )
+
+# %% generate outbound list
 
 listNumber='PICKLIST_00023481'
 pickerCode='PICKER_006'
@@ -30,30 +109,14 @@ D_list = pd.DataFrame(columns=['epc','quantity'])
 
 for i in range(0,num_outbound_SKUs):
     
-
-    EPCs= physicalGood(f"prod_{i}")
+    sku = random.choice(list(sku_master_file.keys()))
+    EPCs= physicalGood(f"prod_{i}",sku_master_file[sku])
+    
     temp = pd.DataFrame([EPCs],columns=['epc'])
     temp['quantity'] = np.random.uniform(min_qty,max_qty)
     D_list = D_list.append(temp)
     
-# %% define control points
 
-storageAreaNode = node(nodeNet='warehouse', 
-                      nodeType='StorageLocation', 
-                      nodeName='Pallet rack', 
-                      geo_position=(41.413896,15.056329), 
-                      plant_position = (1000.0, 2500.0, 0.0))
-
-outboundAreaNode = node(nodeNet='warehouse', 
-                      nodeType='DeliveryArea', 
-                      nodeName='Shipping area', 
-                      geo_position=(41.413896,15.056329), 
-                      plant_position = (1000.0, 2500.0, 0.0))
-
-TruckNode = node(nodeNet='distribution_network', 
-                      nodeType='Truck', 
-                      nodeName='MarioTruck_01', 
-                      )
     
     
 # %% accept epc
